@@ -1,0 +1,43 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(D:/Anaconda/envs/pytorch/python.exe*)",
+      "Bash(python*)",
+      "Bash(PYTHONPATH=*)",
+      "Bash(git *)",
+      "Bash(pip *)",
+      "Bash(tasklist*)",
+      "Bash(dir*)",
+      "Bash(ls*)",
+      "Bash(cd*)",
+      "Bash(conda run*)",
+      "Edit(*.md)",
+      "Write(*.md)",
+      "Edit(*.py)",
+      "Write(*.py)",
+      "Edit(*.json)",
+      "Write(*.json)",
+      "Edit(knowledge/**)",
+      "Write(knowledge/**)",
+      "Edit(experiments/**)",
+      "Write(experiments/**)",
+      "Edit(scripts/**)",
+      "Write(scripts/**)",
+      "Edit(results/**)",
+      "Write(results/**)"
+    ],
+    "ask": [
+      "Bash(rm *)",
+      "Bash(del *)",
+      "Bash(conda install*)",
+      "Bash(powershell*)",
+      "Bash(cmd*)"
+    ],
+    "deny": [
+      "Bash(rm -rf *)",
+      "Read(.env)",
+      "Read(*.key)",
+      "Read(*id_rsa*)"
+    ]
+  }
+}
