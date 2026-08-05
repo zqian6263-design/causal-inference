@@ -25,3 +25,7 @@
 - [x] 复现脚本 experiments/03_ges_dges/run.py、04_lingam_anm_pnl/run.py、05_gin_rlcd/run.py、07_granger/run.py 全部实跑通过
 - 执行策略调整：Claude Code 两轮 max-turns 耗尽零产出（过度探针）→ 知识库改由 Hermes 直接产出（文档已全部消化），Claude Code turns 留给 Phase 2 实验
 - 实测新发现：DGES MinDC={0,1,2} 正确检测；GRaSP 完美恢复(SHD=0)；BOSS 此数据 SHD=5；RLCD 检出 L1；Granger lasso 捕捉 x1→x2
+
+## Phase 2/3 补充 — KCI 非线性实验（2026-08-06）
+- [x] PC+KCI 实测（results/metrics/kci_supplement.json）: 1200 样本下 nonlinear SHD=7 / linear SHD=6, 75-105s/数据集
+- 发现: KCI 非参数但**样本需求大**（1200 样本检验力不足, 漏 2 边定向失败）→ 08 选型指南已回填三条非线性建议
