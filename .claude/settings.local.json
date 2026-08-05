@@ -12,19 +12,12 @@
       "Bash(cd*)",
       "Bash(conda run*)",
       "Edit(*.md)",
-      "Write(*.md)",
       "Edit(*.py)",
-      "Write(*.py)",
       "Edit(*.json)",
-      "Write(*.json)",
       "Edit(knowledge/**)",
-      "Write(knowledge/**)",
       "Edit(experiments/**)",
-      "Write(experiments/**)",
       "Edit(scripts/**)",
-      "Write(scripts/**)",
-      "Edit(results/**)",
-      "Write(results/**)"
+      "Edit(results/**)"
     ],
     "ask": [
       "Bash(rm *)",
