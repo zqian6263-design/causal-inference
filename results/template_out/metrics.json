@@ -1,0 +1,24 @@
+{
+  "PC+fisherz": {
+    "SHD": 0,
+    "adj_precision": 1.0,
+    "adj_recall": 1.0,
+    "adj_tp": 3,
+    "adj_fp": 0,
+    "adj_fn": 0,
+    "arrow_precision": NaN,
+    "arrow_recall": NaN,
+    "time_s": 0.007
+  },
+  "GES+BIC": {
+    "SHD": 0,
+    "adj_precision": 1.0,
+    "adj_recall": 1.0,
+    "adj_tp": 3,
+    "adj_fp": 0,
+    "adj_fn": 0,
+    "arrow_precision": NaN,
+    "arrow_recall": NaN,
+    "time_s": 0.011
+  }
+}
