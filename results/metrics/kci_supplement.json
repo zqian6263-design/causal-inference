@@ -1,0 +1,24 @@
+{
+  "pc_kci_nonlinear": {
+    "SHD": 7,
+    "adj_precision": 1.0,
+    "adj_recall": 0.7143,
+    "adj_tp": 5,
+    "adj_fp": 0,
+    "adj_fn": 2,
+    "arrow_precision": 0.0,
+    "arrow_recall": 0.0,
+    "time_s": 75.2
+  },
+  "pc_kci_linear": {
+    "SHD": 6,
+    "adj_precision": 1.0,
+    "adj_recall": 0.7143,
+    "adj_tp": 5,
+    "adj_fp": 0,
+    "adj_fn": 2,
+    "arrow_precision": 0.25,
+    "arrow_recall": 0.2,
+    "time_s": 104.7
+  }
+}
