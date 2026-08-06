@@ -1,0 +1,25 @@
+{
+  "data": "5 observed + 1 latent (L->X1, L->X2, X1->X3, X2->X4, X3->X5, X4->X5)",
+  "n_samples": 3000,
+  "seed": 42,
+  "SHD(PAG, 端点口径)": 0,
+  "adj_precision": 1.0,
+  "adj_recall": 1.0,
+  "arrow_precision": 1.0,
+  "arrow_recall": 1.0,
+  "time_s": 0.024,
+  "truth_pag_edges": [
+    "X1 o-o X2",
+    "X1 o-o X3",
+    "X2 o-o X4",
+    "X3 -> X5",
+    "X4 -> X5"
+  ],
+  "est_pag_edges": [
+    "X1 o-o X2",
+    "X1 o-o X3",
+    "X2 o-o X4",
+    "X3 -> X5",
+    "X4 -> X5"
+  ]
+}

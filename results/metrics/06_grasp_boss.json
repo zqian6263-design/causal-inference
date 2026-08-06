@@ -1,0 +1,72 @@
+{
+  "n_samples": 3000,
+  "seeds": [
+    42,
+    1,
+    7,
+    2024,
+    999
+  ],
+  "matrix": {
+    "linear_gaussian": {
+      "GRaSP": {
+        "SHD_mean": 6.6,
+        "SHD_std": 1.3565,
+        "SHD_per_seed": [
+          5,
+          8,
+          7,
+          8,
+          5
+        ],
+        "adj_precision": 0.8476,
+        "adj_recall": 0.8,
+        "time_s_mean": 0.017
+      },
+      "BOSS": {
+        "SHD_mean": 0.0,
+        "SHD_std": 0.0,
+        "SHD_per_seed": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "time_s_mean": 0.016
+      }
+    },
+    "linear_nongaussian": {
+      "GRaSP": {
+        "SHD_mean": 5.2,
+        "SHD_std": 2.9257,
+        "SHD_per_seed": [
+          5,
+          8,
+          0,
+          8,
+          5
+        ],
+        "adj_precision": 0.8762,
+        "adj_recall": 0.8286,
+        "time_s_mean": 0.015
+      },
+      "BOSS": {
+        "SHD_mean": 2.4,
+        "SHD_std": 3.0067,
+        "SHD_per_seed": [
+          5,
+          0,
+          0,
+          7,
+          0
+        ],
+        "adj_precision": 0.9428,
+        "adj_recall": 0.9428,
+        "time_s_mean": 0.016
+      }
+    }
+  }
+}

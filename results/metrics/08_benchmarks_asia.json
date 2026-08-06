@@ -1,0 +1,14 @@
+{
+  "dataset": "asia (8 nodes, discrete bnlearn)",
+  "n_samples": 10000,
+  "method": "PC+chisq",
+  "SHD": 5,
+  "adj_precision": 0.8333,
+  "adj_recall": 0.625,
+  "adj_tp": 5,
+  "adj_fp": 1,
+  "adj_fn": 3,
+  "arrow_precision": 1.0,
+  "arrow_recall": 0.4,
+  "time_s": 0.065
+}

@@ -25,12 +25,12 @@
         "adj_recall": 0.8,
         "arrow_precision": 0.2667,
         "arrow_recall": 0.28,
-        "time_s_mean": 0.024,
+        "time_s_mean": 0.023,
         "time_s_per_seed": [
-          0.027,
-          0.024,
-          0.024,
+          0.025,
           0.022,
+          0.025,
+          0.024,
           0.021
         ]
       },
@@ -48,13 +48,13 @@
         "adj_recall": 0.8857,
         "arrow_precision": 0.35,
         "arrow_recall": 0.32,
-        "time_s_mean": 0.035,
+        "time_s_mean": 0.038,
         "time_s_per_seed": [
-          0.045,
-          0.03,
-          0.031,
-          0.025,
-          0.046
+          0.048,
+          0.029,
+          0.035,
+          0.027,
+          0.049
         ]
       },
       "GRaSP+BIC": {
@@ -73,11 +73,11 @@
         "arrow_recall": 0.16,
         "time_s_mean": 0.014,
         "time_s_per_seed": [
-          0.015,
-          0.011,
-          0.02,
           0.014,
-          0.012
+          0.01,
+          0.017,
+          0.015,
+          0.013
         ]
       },
       "BOSS+BIC": {
@@ -98,9 +98,9 @@
         "time_s_per_seed": [
           0.015,
           0.015,
-          0.015,
-          0.015,
-          0.014
+          0.014,
+          0.013,
+          0.016
         ]
       }
     },
@@ -119,13 +119,13 @@
         "adj_recall": 0.8,
         "arrow_precision": 0.2,
         "arrow_recall": 0.24,
-        "time_s_mean": 0.029,
+        "time_s_mean": 0.02,
         "time_s_per_seed": [
-          0.022,
+          0.02,
+          0.019,
+          0.019,
           0.023,
-          0.022,
-          0.057,
-          0.023
+          0.02
         ]
       },
       "GES+BIC": {
@@ -142,12 +142,12 @@
         "adj_recall": 0.8285,
         "arrow_precision": 0.1333,
         "arrow_recall": 0.16,
-        "time_s_mean": 0.037,
+        "time_s_mean": 0.035,
         "time_s_per_seed": [
-          0.047,
-          0.028,
+          0.042,
+          0.027,
           0.031,
-          0.026,
+          0.024,
           0.052
         ]
       },
@@ -165,13 +165,13 @@
         "adj_recall": 0.8286,
         "arrow_precision": 0.3333,
         "arrow_recall": 0.36,
-        "time_s_mean": 0.015,
+        "time_s_mean": 0.014,
         "time_s_per_seed": [
           0.014,
-          0.011,
-          0.02,
-          0.017,
-          0.012
+          0.009,
+          0.019,
+          0.015,
+          0.013
         ]
       },
       "BOSS+BIC": {
@@ -188,13 +188,13 @@
         "adj_recall": 0.9428,
         "arrow_precision": 0.6667,
         "arrow_recall": 0.68,
-        "time_s_mean": 0.015,
+        "time_s_mean": 0.014,
         "time_s_per_seed": [
           0.016,
-          0.015,
-          0.015,
           0.014,
-          0.016
+          0.014,
+          0.013,
+          0.014
         ]
       },
       "ICA-LiNGAM": {
@@ -213,11 +213,11 @@
         "arrow_recall": 1.0,
         "time_s_mean": 0.024,
         "time_s_per_seed": [
-          0.038,
-          0.02,
-          0.019,
-          0.02,
-          0.021
+          0.037,
+          0.017,
+          0.024,
+          0.025,
+          0.018
         ]
       }
     },
@@ -236,13 +236,13 @@
         "adj_recall": 0.7143,
         "arrow_precision": 0.4,
         "arrow_recall": 0.24,
-        "time_s_mean": 0.02,
+        "time_s_mean": 0.017,
         "time_s_per_seed": [
-          0.02,
-          0.021,
-          0.019,
           0.018,
-          0.02
+          0.017,
+          0.014,
+          0.018,
+          0.019
         ]
       },
       "GES+BIC": {
@@ -259,13 +259,13 @@
         "adj_recall": 0.7143,
         "arrow_precision": 0.1333,
         "arrow_recall": 0.08,
-        "time_s_mean": 0.022,
+        "time_s_mean": 0.021,
         "time_s_per_seed": [
           0.023,
           0.023,
           0.022,
-          0.022,
-          0.021
+          0.018,
+          0.02
         ]
       },
       "GRaSP+BIC": {
@@ -282,13 +282,13 @@
         "adj_recall": 0.6571,
         "arrow_precision": 0.0,
         "arrow_recall": 0.0,
-        "time_s_mean": 0.011,
+        "time_s_mean": 0.01,
         "time_s_per_seed": [
+          0.009,
+          0.011,
           0.012,
           0.01,
-          0.012,
-          0.011,
-          0.01
+          0.009
         ]
       },
       "BOSS+BIC": {
@@ -307,11 +307,11 @@
         "arrow_recall": 0.0,
         "time_s_mean": 0.011,
         "time_s_per_seed": [
+          0.012,
           0.011,
-          0.011,
-          0.011,
-          0.013,
-          0.01
+          0.012,
+          0.01,
+          0.012
         ]
       }
     },
@@ -330,13 +330,13 @@
         "adj_recall": 0.9143,
         "arrow_precision": 0.2333,
         "arrow_recall": 0.28,
-        "time_s_mean": 0.027,
+        "time_s_mean": 0.025,
         "time_s_per_seed": [
-          0.028,
-          0.028,
-          0.028,
+          0.027,
+          0.025,
+          0.027,
           0.023,
-          0.027
+          0.025
         ]
       },
       "GES+BDeu": {
@@ -353,13 +353,13 @@
         "adj_recall": 0.8,
         "arrow_precision": 0.0667,
         "arrow_recall": 0.08,
-        "time_s_mean": 0.393,
+        "time_s_mean": 0.386,
         "time_s_per_seed": [
-          0.512,
-          0.44,
-          0.392,
-          0.276,
-          0.344
+          0.496,
+          0.427,
+          0.382,
+          0.271,
+          0.355
         ]
       },
       "GRaSP+BIC": {
@@ -376,13 +376,13 @@
         "adj_recall": 0.8571,
         "arrow_precision": 0.3167,
         "arrow_recall": 0.32,
-        "time_s_mean": 0.016,
+        "time_s_mean": 0.018,
         "time_s_per_seed": [
-          0.019,
-          0.016,
-          0.014,
-          0.017,
-          0.015
+          0.02,
+          0.018,
+          0.015,
+          0.018,
+          0.018
         ]
       },
       "BOSS+BIC": {
@@ -399,13 +399,13 @@
         "adj_recall": 0.9429,
         "arrow_precision": 0.6666,
         "arrow_recall": 0.8,
-        "time_s_mean": 0.017,
+        "time_s_mean": 0.018,
         "time_s_per_seed": [
-          0.017,
-          0.016,
           0.016,
           0.019,
-          0.016
+          0.016,
+          0.021,
+          0.018
         ]
       },
       "GRaSP+BDeu": {
@@ -422,13 +422,13 @@
         "adj_recall": 0.8,
         "arrow_precision": 0.1333,
         "arrow_recall": 0.16,
-        "time_s_mean": 0.611,
+        "time_s_mean": 0.583,
         "time_s_per_seed": [
-          0.802,
-          0.472,
-          0.606,
-          0.573,
-          0.601
+          0.764,
+          0.452,
+          0.578,
+          0.541,
+          0.582
         ]
       },
       "BOSS+BDeu": {
@@ -445,13 +445,13 @@
         "adj_recall": 0.8,
         "arrow_precision": 0.1333,
         "arrow_recall": 0.16,
-        "time_s_mean": 0.862,
+        "time_s_mean": 0.811,
         "time_s_per_seed": [
-          0.815,
-          0.804,
-          0.806,
-          0.829,
-          1.054
+          0.78,
+          0.761,
+          0.783,
+          0.762,
+          0.971
         ]
       }
     }
