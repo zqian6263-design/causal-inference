@@ -33,7 +33,7 @@
 
 ## 注意事项
 
-- 运行前缀必须是 `PYTHONPATH=`（防 Hermes venv 劫持 import）
+- 运行：装好 `requirements.txt` 后直接 `python template_pipeline.py`；本机额外需 `PYTHONPATH=` 前缀（防 Hermes venv 劫持 import，见 `CLAUDE.md`）
 - 真值图评估：管道自动做 CPDAG 对齐（`dag2cpdag`），不要手动对比 DAG vs CPDAG
 - seed 固定 42；真实数据无真值 → 加 bootstrap 稳定性检验（边出现频率），别只跑一次
 - 图表：`GraphUtils.to_pydot(cg.G).write_png(...)` 落盘 `results/figs/`

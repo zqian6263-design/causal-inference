@@ -4,25 +4,27 @@
 
 ## 环境硬约束（违反会浪费时间）
 
-- **Python 必须用**：`D:/Anaconda/envs/pytorch/python.exe`（绝对路径，Anaconda pytorch env）
-- **所有 Python 命令前缀 `PYTHONPATH=`**（本机终端 PYTHONPATH 指向 Hermes venv，会劫持 import，已实测 networkx 加载错误）。正确写法：`PYTHONPATH= D:/Anaconda/envs/pytorch/python.exe xxx.py`
+> 本节是**本机开发环境**说明，仅对当前这台机器生效；其他机器 `pip install -r requirements.txt` 后直接 `python` 运行即可（依赖版本见 `requirements.txt`）。
+
+- **本机 Python**：`D:/Anaconda/envs/pytorch/python.exe`（Anaconda pytorch env，依赖齐全）
+- **所有 Python 命令前缀 `PYTHONPATH=`**（本机终端 PYTHONPATH 指向 Hermes venv，会劫持 import，已实测 networkx 加载错误）。本机正确写法：`PYTHONPATH= D:/Anaconda/envs/pytorch/python.exe xxx.py`
 - causal-learn **0.1.4.8（pip 版）** 已装入 pytorch env，实验一律用它
-- `D:\win\causal-learn` 是官方仓库源码克隆，**仅供阅读 API 参考，禁止在它目录内运行任何实验脚本**（cwd 会污染 import 到源码版）；一切实验在 `D:\win\causal-lab` 下进行
+- 官方源码克隆（仓库同级目录 `causal-learn/`，可选）：**仅供阅读 API 参考，禁止在它目录内运行任何实验脚本**（cwd 会污染 import 到源码版）；一切实验在本仓库根目录下进行
 - 本任务纯 CPU，不涉及 GPU；**禁止安装任何新组件**（依赖已全部就绪：numpy/scipy/sklearn/statsmodels/networkx/pandas/pydot/joblib/matplotlib/torch）
-- 路径一律用 `D:\win\causal-lab\`（D 盘根目录无写权限）
+- 本机路径一律在本仓库根目录下（D 盘根目录无写权限）
 
 ## 目录结构
 
 - `knowledge/` — 中文知识库 9 篇（00 基础 / 01 全景 / 02 约束型 / 03 打分型 / 04 函数模型 / 05 隐变量与排列 / 06 时序 / 07 评估工程 / 08 ★选型指南）
-- `experiments/` — 01_pc … 07_granger 逐方法实验；08_benchmarks bnlearn 基准；09_comparison 横向对比；10_templates 通用模板
+- `experiments/` — 逐方法实验（03/04/05/07 已完成；01_pc / 02_fci / 06_grasp_boss 建设中，批次 C）；08_benchmarks bnlearn 基准（建设中，批次 C）；09_comparison 横向对比；10_templates 通用模板
 - `scripts/` — 公共工具（data_gen.py 数据生成器、evaluate.py 评估器）
 - `results/` — 输出（metrics/ 指标 JSON、figs/ 图表、报告 md）
 
 ## 文档与代码来源
 
-- 官方文档源文件：`D:\win\causal-learn\docs\source\**\*.rst`（45 个，readthedocs 的原始素材）
-- 官方测试示例：`D:\win\causal-learn\tests\Test*.py`（TestPC/TestGES/TestFCI/TestGIN/TestRLCD/TestGRaSP/TestBOSS/TestGranger… 是最佳学习用例）
-- 方法实现：`D:\win\causal-learn\causallearn\search\**`
+- 官方文档源文件：`causal-learn/docs/source/**/*.rst`（45 个，readthedocs 的原始素材；`causal-learn/` 为仓库同级目录的官方源码克隆，可选）
+- 官方测试示例：`causal-learn/tests/Test*.py`（TestPC/TestGES/TestFCI/TestGIN/TestRLCD/TestGRaSP/TestBOSS/TestGranger… 是最佳学习用例）
+- 方法实现：`causal-learn/causallearn/search/**`
 
 ## 工作纪律
 

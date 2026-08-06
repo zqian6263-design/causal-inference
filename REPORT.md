@@ -29,3 +29,16 @@
 ## Phase 2/3 补充 — KCI 非线性实验（2026-08-06）
 - [x] PC+KCI 实测（results/metrics/kci_supplement.json）: 1200 样本下 nonlinear SHD=7 / linear SHD=6, 75-105s/数据集
 - 发现: KCI 非参数但**样本需求大**（1200 样本检验力不足, 漏 2 边定向失败）→ 08 选型指南已回填三条非线性建议
+
+## 优化批次 A — 可复现性与仓库卫生（2026-08-06，Claude Code 执行）
+
+**做了什么**
+- [x] A1 根目录新建 `requirements.txt`：10 个依赖锁定版本（causal-learn 0.1.4.8 / numpy 1.26.4 / scipy 1.13.1 / scikit-learn 1.5.1 / statsmodels 0.14.6 / networkx 3.2.1 / pandas 2.3.3 / pydot 4.0.1 / joblib 1.5.2 / matplotlib 3.9.2）——已用本机 pytorch env `pip show` 实测核对，全部一致
+- [x] A2 去机器专属路径：README/GUIDE/PLAN/CLAUDE/knowledge 00-08 参考·验证输出小节/experiments 各 run.py 顶部注释/模板管道与 TEMPLATE_README，全部改为相对描述；运行命令统一 `python`；README 加「安装」一节（`pip install -r requirements.txt`）；causal-learn 源码改称「仓库同级目录 `causal-learn/`（官方克隆，可选，仅供阅读 API），pip 版即可运行一切实验」；本机开发环境说明**仅保留在 CLAUDE.md** 一处
+- [x] A3 仓库卫生：`.gitignore` 追加 `.claude/settings.local.json`、`results/metrics/cache_*.json`；`git rm --cached .claude/settings.local.json`（本地文件保留）；根目录新增 `LICENSE`（文档 CC-BY-4.0 + 代码 MIT 两段式）；空目录 01_pc / 02_fci / 06_grasp_boss / 08_benchmarks 各放 `.gitkeep`
+- [x] A4 文档结构声明对齐：README/GUIDE/PLAN 中引用 01_pc / 02_fci / 06_* / 08_benchmarks 处标注「建设中（批次 C）」
+
+**注意 / 待 Hermes 决策**
+- ⚠️ `results/metrics/` 在 `.gitignore` 中为整目录忽略，`comparison.json`、`kci_supplement.json` 目前**未入库**（与 A3「是证据，保留」的意图冲突）。本次按任务书仅「追加」两行，未改既有规则；若需证据入库，应把 `results/metrics/` 收窄为 `results/metrics/cache_*.json` 后 `git add -f` 两文件——留给 Hermes 定夺。
+
+**下一步**：批次 B（修实证证据矛盾：多 seed 重跑 + BOSS/BDeu 归因修正 + ArrowConfusion NaN + LiNGAM 统一 SHD 矩阵）。

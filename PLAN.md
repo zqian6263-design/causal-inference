@@ -4,7 +4,7 @@
 
 ## 背景与定位
 
-- **研究对象**：causal-learn 0.1.4.8（文档站 + GitHub `py-why/causal-learn` main 分支，本地克隆于 `D:\win\causal-learn`）
+- **研究对象**：causal-learn 0.1.4.8（文档站 + GitHub `py-why/causal-learn` main 分支，本地克隆于仓库同级目录 `causal-learn/`，可选）
 - **学习范围**：文档站全部 45 个页面 → 6 大类搜索方法、5 种独立性检验、4 类打分函数、评估/图操作/可视化工具
 - **与 research-repro 的关系**：本项目的知识库与实验模板是 Phase F（因果图自动发现论文）的 **baseline 工具箱与方法储备库**——PC/FCI/GES/LiNGAM 等即是论文要对比/引用的标准方法
 - **执行模式**：Hermes 顶层设计（本文件）→ Claude Code 按 PLAN.md 分阶段执行 → Hermes 验收
@@ -22,11 +22,11 @@
 ## 目录结构
 
 ```
-D:\win\causal-lab\
-├── README.md            项目定位（本文件）
+causal-lab\
+├── README.md            项目定位
 ├── PLAN.md              顶层设计与分阶段执行计划（总任务书）
 ├── CLAUDE.md            Claude Code 项目上下文（环境硬约束）
-├── .claude/settings.local.json   Claude Code 权限白名单
+├── .claude/settings.local.json   Claude Code 权限白名单（本地文件，不入库）
 ├── knowledge/           知识库（Claude Code 产出，中文）
 │   ├── 00-因果推断基础.md        DAG/CPDAG/PAG、d-分离、三范式、可识别性
 │   ├── 01-方法全景与分类.md      13 方法总览表 + 适用性初判
@@ -39,8 +39,8 @@ D:\win\causal-lab\
 │   └── 08-方法选型指南.md        ★决策树 + 速查表（Phase 3 定稿）
 ├── experiments/         实验代码（每个方法一个目录）
 │   ├── 00_env_check.py           环境验证脚本
-│   ├── 01_pc/ … 07_granger/      逐方法实验
-│   ├── 08_benchmarks/            bnlearn 13 数据集基准
+│   ├── 01_pc/ … 07_granger/      逐方法实验（01/02/06 建设中，批次 C）
+│   ├── 08_benchmarks/            bnlearn 13 数据集基准（建设中，批次 C）
 │   ├── 09_comparison/            统一协议横向对比
 │   └── 10_templates/             ★通用实验模板（数据生成/评估/报告）
 ├── scripts/             公共工具（数据生成器、评估器、画图）
@@ -50,9 +50,9 @@ D:\win\causal-lab\
 
 ## 环境（硬约束）
 
-- **Python**：`D:\Anaconda\envs\pytorch\python.exe`（Anaconda pytorch env，已验证依赖齐全：numpy 1.26.4 / scipy 1.13.1 / sklearn 1.5.1 / statsmodels 0.14.6 / networkx 3.2.1 / pandas 2.3.3 / pydot 4.0.1 / torch 2.4.0+cu124）
-- **causal-learn**：pip 版 **0.1.4.8** 已装入 pytorch env（实验一律用 pip 版；`D:\win\causal-learn` 仓库源码仅作 API 深度阅读，**禁止**在仓库目录内运行实验脚本——cwd 会污染 import，导致误加载源码版）
-- **PYTHONPATH 污染**：终端环境变量 `PYTHONPATH=C:\Users\win\AppData\Local\hermes\hermes-agent;...` 会劫持 import（已实测 networkx 加载到 Hermes venv）。**所有 Python 命令必须前缀 `PYTHONPATH=`**
+- **依赖**：`requirements.txt` 锁定全部版本（causal-learn 0.1.4.8 + numpy 1.26.4 / scipy 1.13.1 / sklearn 1.5.1 / statsmodels 0.14.6 / networkx 3.2.1 / pandas 2.3.3 / pydot 4.0.1），本机 Anaconda pytorch env 已验证齐全
+- **causal-learn**：pip 版 **0.1.4.8**（实验一律用 pip 版；仓库同级目录 `causal-learn/` 的源码克隆仅作 API 深度阅读，**禁止**在仓库目录内运行实验脚本——cwd 会污染 import，导致误加载源码版）
+- **本机专属**：本机终端 `PYTHONPATH` 指向 Hermes venv 会劫持 import（已实测 networkx 加载错误），**所有 Python 命令必须前缀 `PYTHONPATH=`**；详见 `CLAUDE.md`。其他机器 `pip install -r requirements.txt` 后直接 `python` 即可
 - 不装任何 GPU/CUDA 组件；本任务纯 CPU，无需 GPU
 
 ---
@@ -61,14 +61,14 @@ D:\win\causal-lab\
 
 ## Phase 0 — 环境准备（Hermes 已完成 ✅）
 
-- [x] 克隆仓库 → `D:\win\causal-learn`
+- [x] 克隆仓库 → 仓库同级目录 `causal-learn/`（官方源码克隆，可选）
 - [x] pip 安装 causal-learn 0.1.4.8 到 pytorch env
 - [x] 冒烟测试：PC（fisherz）/ GES / ICA-LiNGAM 全部跑通
 - [x] 验证 PYTHONPATH 剥离方法
 
 ## Phase 1 — 知识库构建（Claude Code，第一批任务）
 
-**任务**：通读 `D:\win\causal-learn\docs\source\`（45 个 rst）与对应源码，撰写 `knowledge/00–07` 共 8 篇中文文档（08 先写框架，Phase 3 定稿）。
+**任务**：通读 `causal-learn/docs/source/`（45 个 rst，`causal-learn/` 为仓库同级目录的官方源码克隆，可选）与对应源码，撰写 `knowledge/00–07` 共 8 篇中文文档（08 先写框架，Phase 3 定稿）。
 
 **每篇文档的统一结构**（方法类）：
 1. 一句话定位
@@ -84,7 +84,7 @@ D:\win\causal-lab\
 
 ## Phase 2 — 逐方法实验（Claude Code，第二批任务）
 
-**任务**：按 `experiments/01_pc/ … 07_granger/` 逐个方法写实验脚本并运行，统一使用 `scripts/` 提供的数据生成器与评估器。
+**任务**：按 `experiments/01_pc/ … 07_granger/` 逐个方法写实验脚本并运行，统一使用 `scripts/` 提供的数据生成器与评估器。（03/04/05/07 已完成；01/02/06 由优化批次 C 补齐。）
 
 **数据生成器**（scripts/data_gen.py，4 种类型 × 2 规模）：
 | 类型 | 分布/结构 | 适配方法 |

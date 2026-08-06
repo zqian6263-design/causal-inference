@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """
 knowledge/06-时序因果.md 复现脚本（示例与文档逐字一致）
-用法: cd D:/win/causal-lab && PYTHONPATH= D:/Anaconda/envs/pytorch/python.exe experiments/07_granger/run.py
+用法: cd causal-lab && python experiments/07_granger/run.py
 """
 import sys, os
 sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..", "..")))
