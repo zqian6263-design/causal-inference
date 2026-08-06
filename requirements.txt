@@ -1,0 +1,10 @@
+causal-learn==0.1.4.8
+numpy==1.26.4
+scipy==1.13.1
+scikit-learn==1.5.1
+statsmodels==0.14.6
+networkx==3.2.1
+pandas==2.3.3
+pydot==4.0.1
+joblib==1.5.2
+matplotlib==3.9.2

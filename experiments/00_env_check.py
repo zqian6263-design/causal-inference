@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Phase 1 知识库复现脚本 —— 与 knowledge/00-02 各文档中的代码示例逐字一致。
-用法: cd D:/win/causal-lab && PYTHONPATH= D:/Anaconda/envs/pytorch/python.exe experiments/00_env_check.py
-环境: causal-learn 0.1.4.8 / networkx 3.2.1 / Python = D:/Anaconda/envs/pytorch/python.exe
+用法: cd causal-lab && python experiments/00_env_check.py
+环境: causal-learn 0.1.4.8 / networkx 3.2.1（版本见 requirements.txt）
 """
 import numpy as np
 

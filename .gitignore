@@ -1,3 +1,5 @@
 .scratch/
 results/metrics/
 __pycache__/
+.claude/settings.local.json
+results/metrics/cache_*.json

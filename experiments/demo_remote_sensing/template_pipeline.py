@@ -7,7 +7,7 @@
 用法:
   1. 复制本目录到任务目录
   2. 修改 template_data_gen.load_your_data() 换成你的数据
-  3. 运行: cd D:/win/causal-lab && PYTHONPATH= D:/Anaconda/envs/pytorch/python.exe \
+  3. 运行: cd causal-lab && python \
        experiments/10_templates/template_pipeline.py
 """
 import sys, os, time, json

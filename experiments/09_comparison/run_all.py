@@ -2,7 +2,7 @@
 """
 Phase 2/3 统一对比实验: 4 类数据 × 全方法
 ============================================
-用法: cd D:/win/causal-lab && PYTHONPATH= D:/Anaconda/envs/pytorch/python.exe experiments/09_comparison/run_all.py
+用法: cd causal-lab && python experiments/09_comparison/run_all.py
 
 产出:
   - results/metrics/comparison.json   全指标矩阵
