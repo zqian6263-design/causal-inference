@@ -75,3 +75,41 @@
 - 实验实跑验证（~16s/次）：SHD/P/R **完全可复现**（数据 RandomState + 方法 random.seed 双重固定；`time_s` 为墙钟计时，随负载漂移属正常）；`comparison.json` 已通过 `json.load` + 无 NaN/Infinity 字面量检查
 
 **下一步**：批次 C（补实验缺口：01_pc / 02_fci / 06_grasp_boss / GIN / VAR-LiNGAM / PNL / results/figs 图表落盘）。
+
+## 优化批次 C — 补实验缺口（2026-08-06，Claude Code 执行）
+
+**做了什么**
+- [x] C1a `experiments/01_pc/run.py`：PC 专属实验——PC+fisherz（线性高斯 n=3000，**SHD=0** 完美）；PC+kci（同真值图 n=600，SHD=6、20.6s，验证 KCI 样本需求大）
+- [x] C1b `experiments/02_fci/run.py`：FCI + 隐变量——真值 L 混淆 X1/X2（观测只含 X1..X5）；评估用 **dag2pag 对齐**（非 dag2cpdag，CPDAG 表达不了圆圈端点）→ **SHD(PAG)=0、Adj P/R=1.0/1.0**，FCI 精确恢复真值 PAG
+- [x] C1c `experiments/02_fci/cdnod_example.py`：CD-NOD 时变数据（c_indx=时间索引, kci）——机制分段切换 → 恢复 **X1→X2** 且 **C→X2**（指出 X2 机制在变），1.3s
+- [x] C1d `experiments/06_grasp_boss/run.py`：GRaSP/BOSS 5-seed 稳定性（random.seed 固定）——线性高斯 GRaSP 6.6±1.36 vs **BOSS 0.0±0.0**；线性非高斯 5.2±2.93 vs 2.4±3.01（BOSS 明显更稳；与批次 B comparison.json 数值完全一致）
+- [x] C1e `experiments/04_lingam_anm_pnl/run.py` 扩展：VAR-LiNGAM（2 变量 lags=2：lag-1 X1→X2=0.52、lag-2=-0.34，真值 0.5/-0.3）；PNL（后非线性 n=400：p_fwd=0.684/p_bwd=0.0 → x→y，import+run 67s）；RCD 最小调用（`lingam.RCD`，np.random.seed 固定可复现）
+- [x] C1f `experiments/05_gin_rlcd/run.py` 扩展：GIN（LiNLAM 隐变量+非高斯）——恢复隐变量簇 **[[0,1],[2,3]]**（L1→{X1,X2}, L2→{X3,X4}, L1→L2），0.19s
+- [x] C1g RCD/CAM-UV：RCD 加最小调用；**CAM-UV 标注「官方实现，未单独实验」**（依赖 pygam 本机未装，禁止装组件）
+- [x] C2 图表落盘：10 张 PNG → results/figs/（新增 `scripts/plotting.py`：本机无 graphviz `dot` 二进制，改 matplotlib+networkx 直渲 CPDAG/PAG）
+- [x] C3 `experiments/08_benchmarks/`：README（bnlearn 数据源说明）+ smoke_asia.py（asia 10000 样本 PC+chisq → SHD=5、adjP/R=0.83/0.63，真值 DAG 对齐评估）
+
+**关键实测数值**
+
+| 方法 | 数据 | 结果 |
+|---|---|---|
+| PC+fisherz | 线性高斯 n=3000 | SHD=0（完美） |
+| PC+kci | 同真值图 n=600 | SHD=6, 20.6s（KCI 样本需求大） |
+| FCI (fisherz) | 5 观测 + 1 隐变量 L | **SHD(PAG)=0**, Adj P/R=1.0（dag2pag 对齐） |
+| CD-NOD (kci) | 时变 600 点 | X1→X2 + C→X2（机制变化检出） |
+| GRaSP / BOSS | 线性高斯 ×5 seed | 6.6±1.36 / **0.0±0.0** |
+| GRaSP / BOSS | 线性非高斯 ×5 seed | 5.2±2.93 / 2.4±3.01 |
+| VAR-LiNGAM | 2 变量 lags=2 | lag-1 0.52 / lag-2 -0.34（真值 0.5/-0.3） |
+| PNL | 后非线性 n=400 | x→y（p=0.684/0.0），import+run 67s |
+| GIN | LiNLAM n=500 | 隐变量簇 [[0,1],[2,3]] 精确恢复 |
+| RLCD | 1 隐变量→5 观测 | 检出 L1 |
+| PC+chisq | bnlearn asia 10000 | SHD=5, adjP/R=0.83/0.63 |
+
+**注意 / 决策记录**
+- **图渲染根因**：本机无 graphviz `dot` 二进制，`to_pydot().write_png()` 与 `GraphUtils.plot_graph` 均失败（knowledge/07 旧「pydot 可用」说法已修正）→ 新增 `scripts/plotting.py`（matplotlib+networkx，CPDAG/PAG 端点全支持）
+- **FCI 评估语义**：PAG 必须 dag2pag 对齐（不能 dag2cpdag）；SHD(PAG) 计端点差异（圆圈 vs 箭头），比 CPDAG SHD 更严格——本实验 FCI 恰好精确恢复（SHD=0）
+- **causal-learn `get_endpoint(a,b)` 坑**：返回的是 **b 端**端点（非 a 端），初版方向画反，已修正并加断言验证（plotting.py / 02_fci decode 均改对）
+- 7 个 metrics JSON 全部合法（无 NaN 字面量）+ 10 张图落盘；实验全部实跑验证
+- GRaSP/BOSS 数值与批次 B comparison.json 完全一致（跨脚本交叉验证通过）
+
+**下一步**：批次 D（模板自包含、demo README 重写、data_gen 死代码清理、CI 冒烟可选）。

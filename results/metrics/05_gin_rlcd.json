@@ -1,0 +1,34 @@
+{
+  "GRaSP": {
+    "SHD": 5,
+    "adj_precision": 0.8571,
+    "adj_recall": 0.8571
+  },
+  "BOSS": {
+    "SHD": 5,
+    "adj_precision": 0.8571,
+    "adj_recall": 0.8571
+  },
+  "RLCD": {
+    "detected_latents": [
+      "L1"
+    ]
+  },
+  "GIN": {
+    "time_s": 0.196,
+    "causal_order_clusters": [
+      [
+        0,
+        1
+      ],
+      [
+        2,
+        3
+      ]
+    ],
+    "latents": [
+      "L1",
+      "L2"
+    ]
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "data": "linear_gaussian (5 nodes, 7 edges)",
+  "n_samples": 3000,
+  "seed": 42,
+  "PC+fisherz": {
+    "SHD": 0,
+    "adj_precision": 1.0,
+    "adj_recall": 1.0,
+    "adj_tp": 7,
+    "adj_fp": 0,
+    "adj_fn": 0,
+    "arrow_precision": 1.0,
+    "arrow_recall": 1.0,
+    "time_s": 0.029
+  },
+  "PC+kci_n600": {
+    "SHD": 6,
+    "adj_precision": 1.0,
+    "adj_recall": 0.7143,
+    "adj_tp": 5,
+    "adj_fp": 0,
+    "adj_fn": 2,
+    "arrow_precision": 0.25,
+    "arrow_recall": 0.2,
+    "time_s": 20.576
+  }
+}

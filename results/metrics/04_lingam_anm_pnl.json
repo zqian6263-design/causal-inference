@@ -1,0 +1,77 @@
+{
+  "ICA-LiNGAM": {
+    "causal_order": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "n_edges": 7
+  },
+  "DirectLiNGAM": {
+    "causal_order": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "n_edges": 7
+  },
+  "ANM": {
+    "p_forward": 0.6711729948694096,
+    "p_backward": 1.264914839538278e-10,
+    "verdict": "x->y"
+  },
+  "VAR-LiNGAM": {
+    "time_s": 0.01,
+    "lags": 2,
+    "adjacency_matrices": [
+      [
+        [
+          0.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      [
+        [
+          0.578,
+          -0.014
+        ],
+        [
+          0.524,
+          0.777
+        ]
+      ],
+      [
+        [
+          0.036,
+          -0.006
+        ],
+        [
+          -0.342,
+          -0.021
+        ]
+      ]
+    ],
+    "lag1_X1->X2": 0.524,
+    "lag2_X1->X2": -0.342
+  },
+  "PNL": {
+    "time_s_import_plus_run": 69.244,
+    "n": 400,
+    "p_forward": 0.684,
+    "p_backward": 0.0,
+    "verdict": "x->y"
+  },
+  "RCD": {
+    "time_s": 19.526,
+    "note": "最小 API 调用（数据无隐变量, 非隐变量发现基准实验）",
+    "n_edges": 4
+  }
+}
