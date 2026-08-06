@@ -234,8 +234,7 @@ Pearl 在演讲中提到了几位关键的贡献者：
 |------|------|
 | **Judea Pearl** | 因果图、do-算子、反事实算法，因果推理体系的创立者 |
 | **Thomas Verma** | 与Pearl一起发现d-分离和传递性 |
-| **James Robins** | 半参数因果推断（g-computation、g-estimation） |
-| **Jamie Robins**（统计学家） | 在流行病学中应用因果推断，提出边际结构模型 |
+| **James M. Robins**（Jamie Robins） | 半参数因果推断（g-computation、g-estimation）；在流行病学中应用因果推断，提出边际结构模型 |
 | **Jin Tian**（田金） | Pearl的学生，在反事实和缺失数据方面做出了重要贡献 |
 | **Donald Rubin** | 潜在结果框架（Potential Outcomes），与Pearl的图模型殊途同归 |
 
