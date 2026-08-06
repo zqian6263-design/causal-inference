@@ -49,4 +49,4 @@ print(f"stats keys: {list(stats.keys())[:6]}")
 print(f"搜索统计: {stats}")
 
 print()
-print("全部复现成功 ✓")
+print("全部复现成功 [OK]")

@@ -113,3 +113,25 @@
 - GRaSP/BOSS 数值与批次 B comparison.json 完全一致（跨脚本交叉验证通过）
 
 **下一步**：批次 D（模板自包含、demo README 重写、data_gen 死代码清理、CI 冒烟可选）。
+
+## 优化批次 D — 收尾工程（2026-08-06，Claude Code 执行）
+
+**做了什么**
+- [x] D1 **10_templates 完全自包含**：`template_pipeline.py` 移除对仓库根的 `sys.path.insert(..., "..", "..")`，把 evaluate 逻辑（`evaluate_graph` / `graph_from_adj` / `_safe_ratio`）**内嵌进模板**；验证：复制到临时目录（`../..` 指向非 causal-lab）独立跑通 ✓
+- [x] D2 **demo_remote_sensing/TEMPLATE_README.md 重写**：不再与 10_templates 逐字相同；讲清遥感因果结构（**X3 土壤湿度是混淆变量**同时影响 X1 与 Y、X2 波段噪声无关）、跑法、预期输出（**SHD=0、X2 正确剔除**，实测 PC/GES 均 adjP/R=1.0）
+- [x] D3 **data_gen 死代码清理**：删除无人调用的 `_generate`（仅 task 文档引用），保留 `_parents/_topo_order/_dag_to_adj/_num_nodes`；自测通过
+- [x] D4 Pearl 笔记修正：**远程文件，Claude Code 无法操作**（本地无该文件）——已在 OPTIMIZATION-PLAN 标注，由 **Hermes 通过 API 拉取修改后推送**（James Robins = Jamie Robins，合并贡献者表两行）
+- [x] D5 **CI 冒烟 `.github/workflows/smoke.yml`**：ubuntu + python 3.9 → `pip install -r requirements.txt` → 跑 00_env_check + 01~07 各 run.py + 09 run_all + **模板自包含验收**（复制 10_templates 到 /tmp 独立跑通）；08_benchmarks 需外部 bnlearn 数据不进 CI
+- [x] 顺带工程修复：00_env_check / 03 / 07 的 `✓` 在 GBK 控制台 UnicodeEncodeError（退出码 1）→ 改 ASCII `[OK]`；04 的 PNL 段加 **torch 缺失自动跳过**（causal-learn 不强依赖 torch，requirements 未含 → CI 无 torch 也能跑 04，PNL 降级为跳过）
+
+**关键实测数值**
+- 模板独立运行：复制到 `.scratch/tpl_test`（`../..`=非 causal-lab）`template_pipeline.py` 跑通（PC/GES 各 2 边）
+- demo 遥感案例（4 变量 n=3000）：PC+fisherz / GES+BIC 均 **SHD=0、adjP/R=1.0/1.0**（X2 无任何边，伪相关剔除）
+- CI 冒烟全套本机模拟：00_env / 01 / 02(+cdnod) / 03 / 04 / 05 / 06 / 07 / run_all 全部 exit=0
+
+**注意 / 决策记录**
+- **PNL 与 torch**：causal-learn 0.1.4.8 的 PyPI 依赖不含 torch，但 PNL 模块顶层 `import torch`。本地 pytorch env 有 torch（2.4.0），CI 装 requirements 后无 torch → 04/run.py 捕获 ImportError 降级「跳过 PNL」，不阻断 CI；requirements.txt 不补 torch（保持批次 A 的 10 依赖清单，CI 冒烟不需要 PNL）
+- 08_benchmarks/smoke_asia.py 依赖外部 bnlearn 数据（D:\win\causal-learn\tests\TestData\），CI 无此数据 → 工作流注释说明、不进 smoke
+- 本批次多次本地重跑实验会令 results/metrics|figs 的 evidence 文件出现「仅 timing/metadata 漂移」（SHD/P/R 不变），提交前已 `git checkout` 回滚噪声，保持批次 D commit 只含工程改动
+
+**下一步**：批次 A–D 全部完成（HERMES 推送 + 验收）；剩余可选：CI 实际在 GitHub Actions 上跑通确认、08_benchmarks 全量基准、远程 Pearl 笔记修正。

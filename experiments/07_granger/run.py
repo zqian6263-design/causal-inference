@@ -30,4 +30,4 @@ print(f"granger_lasso 系数矩阵 shape: {coeff.shape}")
 print(f"  非零系数位置: {np.argwhere(np.abs(coeff) > 1e-6)}")
 
 print()
-print("全部复现成功 ✓")
+print("全部复现成功 [OK]")

@@ -124,38 +124,46 @@ print()
 print("=" * 70)
 print("示例 4: PNL 成对方向判断（后非线性 y=(x+x^3+e)^2, n=400, import 约 45s）")
 print("=" * 70)
-t0 = time.time()
-from causallearn.search.FCMBased.PNL.PNL import PNL   # 重依赖, import 慢
+try:
+    import torch  # PNL 的依赖；causal-learn 不强依赖 torch（CI 装 requirements 后无 torch）
+    from causallearn.search.FCMBased.PNL.PNL import PNL   # 重依赖, import 慢
+    _pnl_available = True
+except ImportError as e:
+    print(f"[跳过] PNL 需 torch，当前环境无（{e}）——CI/requirements 无 torch 时跳过，本地 pytorch env 正常")
+    results["PNL"] = {"skipped": "torch not installed (causal-learn optional dep)"}
+    _pnl_available = False
 
-n_pnl = 400
-rng = np.random.RandomState(0)
-x = rng.randn(n_pnl, 1)
-x = x / x.std()
-e = rng.randn(n_pnl, 1)
-e = e / e.std()
-y = (x + x ** 3 + e) ** 2
-pnl = PNL()
-p_fwd, p_bwd = pnl.cause_or_effect(x, y)
-p_fwd, p_bwd = float(np.asarray(p_fwd).ravel()[0]), float(np.asarray(p_bwd).ravel()[0])
-pnl_time = round(time.time() - t0, 3)   # 含 import（首次约 45s+）
-print(f"PNL import+run 耗时: {pnl_time}s（首次含 ~45s import）")
-print(f"PNL p_forward (x→y): {p_fwd:.4f}")
-print(f"PNL p_backward(y→x): {p_bwd:.4f}")
-verdict = "x->y" if p_fwd > p_bwd else "y->x / 不可判"
-print(f"方向判定: {verdict}（p 大 = 接受该方向）")
-assert p_fwd > p_bwd, "PNL 应判 x->y（后非线性数据按 x 生成）"
-results["PNL"] = {"time_s_import_plus_run": pnl_time, "n": n_pnl,
-                  "p_forward": round(float(p_fwd), 4), "p_backward": round(float(p_bwd), 4),
-                  "verdict": verdict}
+if _pnl_available:
+    t0 = time.time()
+    n_pnl = 400
+    rng = np.random.RandomState(0)
+    x = rng.randn(n_pnl, 1)
+    x = x / x.std()
+    e = rng.randn(n_pnl, 1)
+    e = e / e.std()
+    y = (x + x ** 3 + e) ** 2
+    pnl = PNL()
+    p_fwd, p_bwd = pnl.cause_or_effect(x, y)
+    p_fwd, p_bwd = float(np.asarray(p_fwd).ravel()[0]), float(np.asarray(p_bwd).ravel()[0])
+    pnl_time = round(time.time() - t0, 3)   # 含 import（首次约 45s+）
+    print(f"PNL import+run 耗时: {pnl_time}s（首次含 ~45s import）")
+    print(f"PNL p_forward (x→y): {p_fwd:.4f}")
+    print(f"PNL p_backward(y→x): {p_bwd:.4f}")
+    verdict = "x->y" if p_fwd > p_bwd else "y->x / 不可判"
+    print(f"方向判定: {verdict}（p 大 = 接受该方向）")
+    assert p_fwd > p_bwd, "PNL 应判 x->y（后非线性数据按 x 生成）"
+    results["PNL"] = {"time_s_import_plus_run": pnl_time, "n": n_pnl,
+                      "p_forward": round(float(p_fwd), 4), "p_backward": round(float(p_bwd), 4),
+                      "verdict": verdict}
 
-# PNL 数据散点
-fig, ax = plt.subplots(figsize=(5.5, 4.2))
-ax.scatter(x.ravel(), y.ravel(), s=8, alpha=0.6, color="#2b6cb0")
-ax.set_xlabel("x"); ax.set_ylabel("y")
-ax.set_title("PNL data: y = (x + x^3 + e)^2")
-fig.tight_layout()
-fig.savefig(os.path.join(FIG_DIR, "04_pnl_scatter.png"), dpi=200)
-plt.close(fig)
+    # PNL 数据散点
+    fig, ax = plt.subplots(figsize=(5.5, 4.2))
+    ax.scatter(x.ravel(), y.ravel(), s=8, alpha=0.6, color="#2b6cb0")
+    ax.set_xlabel("x"); ax.set_ylabel("y")
+    ax.set_title("PNL data: y = (x + x^3 + e)^2")
+    fig.tight_layout()
+    fig.savefig(os.path.join(FIG_DIR, "04_pnl_scatter.png"), dpi=200)
+    plt.close(fig)
 
 print()
 print("=" * 70)

@@ -31,7 +31,7 @@ def describe_data(data, feature_names=None, is_time_series=False):
         "discrete_cols": [i for i in range(d) if np.unique(data[:, i][~np.isnan(data[:, i])]).size < 10],
     }
     info["has_discrete"] = len(info["discrete_cols"]) > 0
-    print("📋 数据体检:")
+    print("[数据体检]")
     for k, v in info.items():
         print(f"   {k}: {v}")
     return info
@@ -52,8 +52,8 @@ def quick_select_method(info):
     if info["n_features"] <= 15:
         rec.append(("ExactSearch", "小图追求全局最优"))
     # 隐变量无法自动判断——提醒用户
-    print("🎯 建议方法:", rec)
-    print("   ⚠️ 若怀疑存在未观测混杂 → 换 FCI (PAG) 或 RLCD (显式隐变量)")
+    print("[建议方法]", rec)
+    print("   [!] 若怀疑存在未观测混杂 → 换 FCI (PAG) 或 RLCD (显式隐变量)")
     return rec
 
 

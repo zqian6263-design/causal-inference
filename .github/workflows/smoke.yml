@@ -1,0 +1,53 @@
+name: smoke
+
+# 批次 D 冒烟 CI：ubuntu + python 3.9 装 requirements.txt 后跑全部实验脚本，
+# 验证仓库「新鲜 clone + pip install」即可复现（对应 PLAN 全局验收标准 1）。
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Install deps
+        run: pip install -r requirements.txt
+
+      # 逐方法实验脚本（08_benchmarks 需外部 bnlearn 数据，不进 CI，见其 README）
+      - name: 00_env_check
+        run: python experiments/00_env_check.py
+      - name: 01_pc
+        run: python experiments/01_pc/run.py
+      - name: 02_fci
+        run: python experiments/02_fci/run.py
+      - name: 02_fci_cdnod
+        run: python experiments/02_fci/cdnod_example.py
+      - name: 03_ges_dges
+        run: python experiments/03_ges_dges/run.py
+      - name: 04_lingam_anm_pnl
+        # PNL 依赖 torch（causal-learn 不强依赖，requirements 未含）→ 脚本自动跳过 PNL 示例
+        run: python experiments/04_lingam_anm_pnl/run.py
+      - name: 05_gin_rlcd
+        run: python experiments/05_gin_rlcd/run.py
+      - name: 06_grasp_boss
+        run: python experiments/06_grasp_boss/run.py
+      - name: 07_granger
+        run: python experiments/07_granger/run.py
+      - name: 09_comparison
+        run: python experiments/09_comparison/run_all.py
+
+      # D1 验收：复制 10_templates 到独立目录能自包含跑通（无仓库根依赖）
+      - name: template standalone (copy to temp dir)
+        run: |
+          cp -r experiments/10_templates /tmp/tpl_test
+          cd /tmp/tpl_test
+          python template_pipeline.py

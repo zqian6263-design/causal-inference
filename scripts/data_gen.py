@@ -55,20 +55,6 @@ def _num_nodes(dag_edges):
     return max([max(e) for e in dag_edges] + [-1]) + 1
 
 
-def _generate(dag_edges, n_samples, noise_fn, link_fn, seed):
-    rng = np.random.RandomState(seed)
-    num_nodes = _num_nodes(dag_edges)
-    adj = _dag_to_adj(dag_edges, num_nodes)
-    X = np.zeros((n_samples, num_nodes))
-    for node in _topo_order(dag_edges, num_nodes):
-        parents = _parents(node, dag_edges)
-        val = np.zeros(n_samples)
-        for p in parents:
-            val += link_fn(p, node) * X[:, p]
-        X[:, node] = val + noise_fn(rng, n_samples)
-    return X, adj
-
-
 def simulate_linear_gaussian(n=2000, dag_edges=DEFAULT_DAG, seed=42, noise_scale=1.0):
     """线性高斯（对齐官方 utils_simulate_data.py）: X = (I-A)^-1 E, E~N(0,1).
     权重 uniform(0.5,0.9) 含 50% 负号 —— 与官方 TestPC 基准完全一致."""
@@ -142,4 +128,4 @@ if __name__ == "__main__":
         assert d1.shape == (1000, 5) and a1.shape == (5, 5)
         assert np.allclose(d1, d2), f"{name} 不可复现!"
         print(f"{name}: OK  shape={d1.shape}  edges={a1.sum()//2 + np.triu(a1).sum()}")
-    print("data_gen 自测全部通过 ✓")
+    print("data_gen 自测全部通过 [OK]")
