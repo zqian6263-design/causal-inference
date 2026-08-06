@@ -38,6 +38,7 @@
 6. **CI 冒烟（批次 D 可选，强烈建议做）**：`.github/workflows/smoke.yml`（ubuntu + py3.9 + pip install -r requirements.txt → import 检查 → 快方法 run.py 冒烟 → run_all.py 定时任务）。这是公开仓库可复现性的最终保险——批次 D 若未做，后续补。
 7. **模板复制即用的回归测试**：批次 D 改完模板后，把「复制到临时目录独立跑通」固化为一个测试脚本（`tests/test_template_portable.py`），防止未来改动再破坏。
 8. **bnlearn 全量基准（08_benchmarks 扩展）**：当前仅 asia 冒烟。13 个 bnlearn 数据集（alarm→win95pts）全量跑 PC+chisq 可给「离散大图」场景提供实证（时间约 10-30 分钟，可后台）。
+   > 已知约束（批次 D 记录）：`smoke_asia.py` 依赖**仓库外**的 bnlearn 数据文件（`D:\win\causal-learn\tests\TestData\bnlearn_discrete_10000\` 或官方仓库下载），CI 无法访问 → 已从 CI smoke 排除并在其 README 注释说明获取方式。后续做全量基准时需先下载数据到本地。
 
 ### 🟢 低优先级（体验与生态）
 
@@ -52,3 +53,4 @@
 3. **数值交叉验证**：新实验的关键数字必须能与既有 results/ 交叉对上（本流程 06 vs comparison.json 一致才算过）。
 4. **生成器先对齐官方**：数据生成器写完后，先用官方基准（TestPC 数据/benchmark）验证一致性，再用于实验。
 5. **JSON 落盘规范**：metrics 一律合法 JSON（无 NaN/Infinity），`allow_nan=False` 兜底；缓存与证据分目录管理。
+6. **evidence 文件与 commit 分离**（批次 D 经验）：本地重跑实验产生的指标 JSON 若**仅 timing/metadata 漂移**（SHD/P/R 数值不变），commit 前回滚，保持每次 commit 只含该批次的真实改动；只有 SHD/P/R 等数值发生变化才值得作为 evidence 提交。避免"重跑一次就污染一次 commit"。
