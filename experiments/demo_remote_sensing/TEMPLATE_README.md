@@ -1,39 +1,63 @@
-# 通用实验模板使用说明（TEMPLATE_README.md）
+# 遥感案例演示：因果特征提取（demo_remote_sensing）
 
-把 `experiments/10_templates/` 当作任何新因果分析任务的**起点**。
+> 本目录是 `experiments/10_templates/` 的**具体工作示例**：在合成「遥感特征-标签」数据上跑完整模板管道，演示因果特征选择如何**剔除伪相关**（X2 波段噪声）并**保留因果父节点**（X1、X3）。与 10_templates 的通用 README 不同，本文只讲遥感案例。
 
-## 三步使用法
+## 一、因果结构（真值，写在 `template_data_gen.load_your_data()`）
 
-1. **改数据**：在 `template_data_gen.py` 的 `load_your_data()` 里换成你的数据源
-   （CSV / Excel / npy / 数据库），返回 `(data, meta)`，meta 里给 `feature_names`；
-   合成数据（有真值图）时加 `meta["truth_adj"]` 即可自动定量评估。
-2. **看建议**：跑 `template_data_gen.py` 看「数据体检 + 方法建议」
-   （对应 `knowledge/08-方法选型指南.md` 的决策树，自动判断连续/离散/缺失/时序）。
-3. **跑管道**：`template_pipeline.py` 一键完成
-   数据 → 方法选择 → 运行 → 评估（SHD/P-R）→ 报告落盘 `results/template_out/`。
+四个变量：
 
-## 文件清单
-
-| 文件 | 作用 |
+| 变量 | 含义 |
 |---|---|
-| `template_data_gen.py` | 数据加载 + 体检 + 快速方法建议（决策树实现） |
-| `template_pipeline.py` | 一键管道：方法运行 + 评估 + Markdown 报告 |
-| 本 README | 使用说明 |
+| X1 | NDVI 植被指数 |
+| X2 | BandNoise 波段噪声（**与 Y 无关的伪特征**） |
+| X3 | SoilMoist 土壤湿度 |
+| Y | Yield 产量（标签） |
 
-## 常见任务模板组合
+真值 DAG：
 
-| 任务类型 | 改哪里 | 用什么方法 |
+```text
+X3(土壤湿度) ──→ X1(植被指数) ──→ Y(产量)
+     └──────────→ Y
+X2(波段噪声) ── 无关（无任何边）
+```
+
+要点：
+- **X3 是混淆变量**：同时影响 X1 和 Y。若只看相关性，X1 与 Y 的相关里混着 X3 的贡献——这就是「伪相关」的来源；
+- **X2 是无关特征**：独立生成、与 Y 无因果边——测试方法能否把它正确剔除；
+- Y 的**因果父节点 = {X1, X3}**；X2 的马尔可夫毯不包含 Y。
+
+## 二、怎么跑
+
+```bash
+cd experiments/demo_remote_sensing
+python template_pipeline.py          # 本机加 PYTHONPATH= 前缀，见 CLAUDE.md
+```
+
+管道自动：数据体检 → 方法建议 → PC+fisherz / GES+BIC 运行 → 真值 CPDAG 对齐评估。
+输出落在运行目录的 `results/template_out/report.md` + `metrics.json`。
+
+## 三、预期输出（本机实测）
+
+| 方法 | SHD | adjP | adjR | arrP | arrR |
+|---|---|---|---|---|---|
+| PC+fisherz | **0** | 1.0 | 1.0 | 0.0 | 0.0 |
+| GES+BIC | **0** | 1.0 | 1.0 | 0.0 | 0.0 |
+
+- **SHD=0**：估计 CPDAG 与真值完全一致；
+- **adjP/R = 1.0**：骨架精确——所有真边都找回（R=1.0），**X2 没有任何边**（P=1.0），伪相关被正确剔除；
+- arrP/R=0.0 不是失败：真值 DAG 无对撞结构 → CPDAG 全为无向边，箭头精度语义上为 0。
+
+## 四、与通用模板的区别
+
+| | `10_templates/` | 本 demo |
 |---|---|---|
-| 通用观测数据 | `load_your_data()` | PC+fisherz / GES+BIC / BOSS（连续线性） |
-| 离散/分类特征 | `load_your_data()` + 确认 `discrete_cols` | BOSS / GES+BDeu / PC+chisq |
-| 疑似非高斯连续 | `load_your_data()` | ICA-LiNGAM（完整 DAG） |
-| 时序 | 传入 (T,D) 矩阵 + `is_time_series=True` | Granger / VAR-LiNGAM |
-| 有缺失 | 保留 np.nan | PC + mv_fisherz |
-| 疑似隐变量 | 手动 | FCI / RLCD |
+| 定位 | 通用起点（复制即用） | 遥感场景的具体演示 |
+| 数据 | 示例链式数据（无真值图） | 遥感特征-标签（含混淆 + 噪声结构） |
+| 真值图 | 无（走「真实数据」分支） | 有（`meta["truth_adj"]`，走定量评估分支） |
+| 关注点 | 模板机制本身 | 因果特征选择（剔除伪相关） |
 
-## 注意事项
+## 五、对真实遥感任务的启示
 
-- 运行：装好 `requirements.txt` 后直接 `python template_pipeline.py`；本机额外需 `PYTHONPATH=` 前缀（防 Hermes venv 劫持 import，见 `CLAUDE.md`）
-- 真值图评估：管道自动做 CPDAG 对齐（`dag2cpdag`），不要手动对比 DAG vs CPDAG
-- seed 固定 42；真实数据无真值 → 加 bootstrap 稳定性检验（边出现频率），别只跑一次
-- 图表：`GraphUtils.to_pydot(cg.G).write_png(...)` 落盘 `results/figs/`
+1. **用因果发现替代纯相关/纯监督做特征选择**：取 Y 的马尔可夫毯 {X1, X3}，剔除 X2——这正是 TGRS 类论文的价值点（提升跨域泛化）；
+2. 若真实数据存在**未观测混杂**（如气象共因同时影响光谱与产量），把方法换成 FCI（PAG）或 RLCD（显式隐变量），别用 PC；
+3. 真实数据**无真值图** → 用 bootstrap 重采样看边出现频率 + 领域知识核对，别只跑一次。

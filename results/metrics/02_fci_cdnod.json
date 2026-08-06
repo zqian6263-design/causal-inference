@@ -2,7 +2,7 @@
   "data": "time-varying: x2 mechanism switches at T/2 (0.9 -> 0.1 coefficient)",
   "n_time": 600,
   "indep_test": "kci",
-  "time_s": 1.398,
+  "time_s": 1.298,
   "directed_edges": [
     "X1 -> X2",
     "C -> X2"

@@ -21,7 +21,7 @@
         ],
         "adj_precision": 0.8476,
         "adj_recall": 0.8,
-        "time_s_mean": 0.017
+        "time_s_mean": 0.015
       },
       "BOSS": {
         "SHD_mean": 0.0,
@@ -35,7 +35,7 @@
         ],
         "adj_precision": 1.0,
         "adj_recall": 1.0,
-        "time_s_mean": 0.016
+        "time_s_mean": 0.015
       }
     },
     "linear_nongaussian": {
@@ -65,7 +65,7 @@
         ],
         "adj_precision": 0.9428,
         "adj_recall": 0.9428,
-        "time_s_mean": 0.016
+        "time_s_mean": 0.015
       }
     }
   }

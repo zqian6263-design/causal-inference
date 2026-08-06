@@ -7,7 +7,7 @@
   "adj_recall": 1.0,
   "arrow_precision": 1.0,
   "arrow_recall": 1.0,
-  "time_s": 0.024,
+  "time_s": 0.022,
   "truth_pag_edges": [
     "X1 o-o X2",
     "X1 o-o X3",

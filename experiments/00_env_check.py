@@ -117,4 +117,4 @@ cg = pc(X_missing, 0.05, mv_fisherz, True, 0, 4, mvpc=True, show_progress=False)
 print(cg.G.graph)
 
 print()
-print("全部复现成功 ✓")
+print("全部复现成功 [OK]")

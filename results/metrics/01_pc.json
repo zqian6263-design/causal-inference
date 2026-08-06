@@ -11,7 +11,7 @@
     "adj_fn": 0,
     "arrow_precision": 1.0,
     "arrow_recall": 1.0,
-    "time_s": 0.027
+    "time_s": 0.029
   },
   "PC+kci_n600": {
     "SHD": 6,
@@ -22,6 +22,6 @@
     "adj_fn": 2,
     "arrow_precision": 0.25,
     "arrow_recall": 0.2,
-    "time_s": 21.558
+    "time_s": 20.576
   }
 }
