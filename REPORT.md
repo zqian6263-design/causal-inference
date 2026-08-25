@@ -164,3 +164,22 @@
 - 遗留`results/template_out`漂移已按纪律回滚；E2 将补 CI/测试/文档。
 
 **下一步**：阶段 E2（CI 兼容检查 + 模板回归测试 + 文档补充），完成后 commit 并收尾。
+
+## 优化批次 E2 — CI 兼容 + 工程收尾（2026-08-25，Claude Code 执行，IMP #6 #7 #9 #10）
+
+**做了什么**
+- [x] E2-1 **CI 兼容性检查**（#6）：`python -m py_compile` 全部 .py 通过；`PYTHONPATH=`（Linux 无污染等价环境）模拟跑 00_env_check + 01_pc + 07_granger 全部 exit=0。已核查：全部实验脚本 `sys.path` 基于 `__file__` 相对仓库根（无 D:\ 依赖）、输出相对 `results/`、matplotlib 全部 `use("Agg")`（04/06/plotting.py 均在 pyplot 之前设置，无 `show()`）；E1 新增脚本（discrete_cpd/sensitivity/run_all_bnlearn）同样无污染可跑。仅 08_benchmarks 需外部 bnlearn 数据（同 smoke_asia，CI 已排除）
+- [x] E2-2 **模板回归测试固化**（#7）：新建 `tests/test_template_portable.py`——复制 10_templates 到独立临时目录 → 子进程跑 template_data_gen.py + template_pipeline.py + 给真值图的定量评估驱动，断言 exit=0、输出含关键标记、metrics.json 合法（无 NaN/Infinity）。本地跑通（5/5 步通过）
+- [x] E2-3 **文档补充**（#9 + #10）：README 安装节补「可选装 graphviz（系统级）启用 to_pydot 原生渲染，无则用内置 plotting.py」；knowledge/07 图渲染节同步一句（graphviz 为可选依赖）；确认 04 run.py 的 PNL import 已在 try 块内（惰性）并补注释说明其动机（批量不背 45s 启动、torch 缺失自动降级）
+
+**关键实测数值**
+- py_compile：全仓库 .py 语法 OK（0 失败）
+- CI 模拟（无 PYTHONPATH）：00_env_check exit=0 / 01_pc exit=0 / 07_granger exit=0
+- `tests/test_template_portable.py`：复制即用回归 5/5 步通过，模板默认路径 + 定量评估路径均验证
+
+**注意 / 决策记录**
+- E2-1 实测会重写 `01_pc.json` 等 evidence 文件（仅 timing 漂移，SHD/P/R 不变）——按纪律已回滚，E2 commit 只含工程改动
+- CI 工作流（smoke.yml）**未改动**：新增 E1 实验脚本与本机 git 非必须入 CI（discrete_cpd/sensitivity 确定性可复现但 wall-time ~1-2min，bnlearn 需外部数据）；test_template_portable.py 作为本地回归防护。GitHub Actions 真跑由 Hermes 推送后跟进
+- 可选后续：把 CI 内联「template standalone」步骤换成 `python tests/test_template_portable.py`（覆盖更强）；大图 PC+chisq alpha 自适应（已列 08_benchmarks TODO）
+
+**下一步**：E1+E2 全部完成；工作树已净。Hermes 推送 + 验收。

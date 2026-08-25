@@ -124,6 +124,9 @@ print()
 print("=" * 70)
 print("示例 4: PNL 成对方向判断（后非线性 y=(x+x^3+e)^2, n=400, import 约 45s）")
 print("=" * 70)
+# 惰性导入（try 块内）：PNL 是重依赖（torch 非 causal-learn 必装 + import ~45s），
+# 仅当本示例确实用到时才 import——批量任务只想跑 1-3 时不背 PNL 的启动开销；
+# 且 torch 缺失（如 CI 装 requirements 后）自动降级跳过本示例，不阻断整脚本。
 try:
     import torch  # PNL 的依赖；causal-learn 不强依赖 torch（CI 装 requirements 后无 torch）
     from causallearn.search.FCMBased.PNL.PNL import PNL   # 重依赖, import 慢

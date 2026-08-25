@@ -37,6 +37,9 @@ python experiments/01_pc/run.py
 
 输出：`SHD=0  adjP/R=1.0/1.0` —— 从 3000 个样本里把 5 个变量的因果图完整找回来了。
 
+> **可选装 graphviz（系统级命令行工具）**：启用 causal-learn `to_pydot()` 原生渲染；未装也不影响——
+> 全部脚本走仓库内置 `scripts/plotting.py`（matplotlib+networkx 直渲，CPDAG/PAG 通用）。
+
 ---
 
 ## 🆕 新分析任务 3 步走
