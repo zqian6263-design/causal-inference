@@ -115,6 +115,48 @@ def simulate_discrete(n=2000, dag_edges=DEFAULT_DAG, seed=42, states=3):
     return Xd, adj
 
 
+def simulate_discrete_cpd(n=2000, dag_edges=DEFAULT_DAG, seed=42, states=3):
+    """真实离散生成模型（多项 logit CPD，非高斯分箱）. chisq/gsq/BDeu 适用.
+
+    simulate_discrete() 是「连续高斯潜变量分位数分箱」，并非真实离散 CPD；
+    本函数按多项 logit 结构直接建模每个子节点的条件分布（IMPROVEMENTS #1 复核）：
+      - 每个子节点 X_j 有 states 个状态，父配置 Pa 到状态 k 的选择概率由 logit 给定:
+            logit_k(pa) = W_j[k, :] · g(pa)，  p(X_j=k | pa) = softmax_k(logit)
+        (g 为父节点 one-hot 拼接的特征，W_j 为随机系数，确定性部分含父影响;
+         softmax 使其为合法多项 CPD，父状态组合不同 → 子分布不同)
+      - 根节点取均匀边际分类分布（无依赖）
+    返回: Xd（int，0..states-1）, adj。真值仍是 DAG，评估口径与 simulate_discrete 一致。
+    """
+    rng = np.random.RandomState(seed)
+    num_nodes = _num_nodes(dag_edges)
+    adj = _dag_to_adj(dag_edges, num_nodes)
+    Xd = np.zeros((n, num_nodes), dtype=int)
+
+    parent_list = [_parents(i, dag_edges) for i in range(num_nodes)]
+    order = _topo_order(dag_edges, num_nodes)
+    for j in order:
+        pa = parent_list[j]
+        if not pa:
+            # 根节点：均匀边际分布
+            Xd[:, j] = rng.randint(0, states, size=n)
+            continue
+        # 父配置 -> one-hot 特征维度 = len(pa) * states
+        dim = len(pa) * states
+        W = rng.normal(0.0, 1.0, size=(states, dim))  # 多项 logit 系数
+        # 构造父配置特征: 每个父 (len(pa), n) 取 one-hot, 行拼接 -> (n, dim)
+        feat = np.zeros((n, dim), dtype=float)
+        for o, p in enumerate(pa):
+            feat[:, o * states:(o + 1) * states] = (Xd[:, p][:, None] == np.arange(states))
+        logits = feat @ W.T                      # (n, states)
+        logits -= logits.max(axis=1, keepdims=True)  # 数值稳定
+        e = np.exp(logits)                        # (n, states)
+        p = e / e.sum(axis=1, keepdims=True)
+        c = np.cumsum(p, axis=1)
+        u = rng.rand(n)[:, None]                 # (n,1)
+        Xd[:, j] = (u >= c).sum(axis=1)           # 逆变换采样多项分布 0..states-1
+    return Xd, adj
+
+
 if __name__ == "__main__":
     # 自测: 每种生成器跑一遍, 校验形状与 seed 可复现
     for name, fn in [
@@ -122,6 +164,7 @@ if __name__ == "__main__":
         ("linear_nongaussian", simulate_linear_nongaussian),
         ("nonlinear_anm", simulate_nonlinear_anm),
         ("discrete", simulate_discrete),
+        ("discrete_cpd", simulate_discrete_cpd),
     ]:
         d1, a1 = fn(n=1000, seed=42)
         d2, _ = fn(n=1000, seed=42)

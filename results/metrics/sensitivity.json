@@ -1,0 +1,397 @@
+{
+  "datasets": {
+    "linear_gaussian": {
+      "1000": {
+        "PC+fisherz": {
+          "SHD_mean": 4.0,
+          "SHD_std": 2.8284,
+          "SHD_per_seed": [
+            0,
+            6,
+            6
+          ],
+          "time_s_mean": 0.024
+        },
+        "GES+BIC": {
+          "SHD_mean": 5.3333,
+          "SHD_std": 3.7712,
+          "SHD_per_seed": [
+            0,
+            8,
+            8
+          ],
+          "time_s_mean": 0.041
+        },
+        "GRaSP+BIC": {
+          "SHD_mean": 6.3333,
+          "SHD_std": 1.2472,
+          "SHD_per_seed": [
+            5,
+            8,
+            6
+          ],
+          "time_s_mean": 0.016
+        },
+        "BOSS+BIC": {
+          "SHD_mean": 2.0,
+          "SHD_std": 2.8284,
+          "SHD_per_seed": [
+            0,
+            0,
+            6
+          ],
+          "time_s_mean": 0.015
+        }
+      },
+      "3000": {
+        "PC+fisherz": {
+          "SHD_mean": 4.0,
+          "SHD_std": 2.8284,
+          "SHD_per_seed": [
+            0,
+            6,
+            6
+          ],
+          "time_s_mean": 0.026
+        },
+        "GES+BIC": {
+          "SHD_mean": 5.0,
+          "SHD_std": 3.559,
+          "SHD_per_seed": [
+            0,
+            7,
+            8
+          ],
+          "time_s_mean": 0.037
+        },
+        "GRaSP+BIC": {
+          "SHD_mean": 6.6667,
+          "SHD_std": 1.2472,
+          "SHD_per_seed": [
+            5,
+            8,
+            7
+          ],
+          "time_s_mean": 0.017
+        },
+        "BOSS+BIC": {
+          "SHD_mean": 0.0,
+          "SHD_std": 0.0,
+          "SHD_per_seed": [
+            0,
+            0,
+            0
+          ],
+          "time_s_mean": 0.014
+        }
+      },
+      "10000": {
+        "PC+fisherz": {
+          "SHD_mean": 4.0,
+          "SHD_std": 2.8284,
+          "SHD_per_seed": [
+            6,
+            6,
+            0
+          ],
+          "time_s_mean": 0.025
+        },
+        "GES+BIC": {
+          "SHD_mean": 7.0,
+          "SHD_std": 0.8165,
+          "SHD_per_seed": [
+            6,
+            7,
+            8
+          ],
+          "time_s_mean": 0.039
+        },
+        "GRaSP+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.016
+        },
+        "BOSS+BIC": {
+          "SHD_mean": 0.0,
+          "SHD_std": 0.0,
+          "SHD_per_seed": [
+            0,
+            0,
+            0
+          ],
+          "time_s_mean": 0.016
+        }
+      },
+      "30000": {
+        "PC+fisherz": {
+          "SHD_mean": 2.0,
+          "SHD_std": 2.8284,
+          "SHD_per_seed": [
+            0,
+            6,
+            0
+          ],
+          "time_s_mean": 0.028
+        },
+        "GES+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.048
+        },
+        "GRaSP+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.017
+        },
+        "BOSS+BIC": {
+          "SHD_mean": 2.6667,
+          "SHD_std": 3.7712,
+          "SHD_per_seed": [
+            0,
+            8,
+            0
+          ],
+          "time_s_mean": 0.019
+        }
+      }
+    },
+    "linear_nongaussian": {
+      "1000": {
+        "PC+fisherz": {
+          "SHD_mean": 5.6667,
+          "SHD_std": 0.4714,
+          "SHD_per_seed": [
+            5,
+            6,
+            6
+          ],
+          "time_s_mean": 0.021
+        },
+        "GES+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.043
+        },
+        "GRaSP+BIC": {
+          "SHD_mean": 7.0,
+          "SHD_std": 1.4142,
+          "SHD_per_seed": [
+            5,
+            8,
+            8
+          ],
+          "time_s_mean": 0.014
+        },
+        "BOSS+BIC": {
+          "SHD_mean": 0.0,
+          "SHD_std": 0.0,
+          "SHD_per_seed": [
+            0,
+            0,
+            0
+          ],
+          "time_s_mean": 0.017
+        },
+        "ICA-LiNGAM": {
+          "SHD_mean": 0.0,
+          "SHD_std": 0.0,
+          "SHD_per_seed": [
+            0,
+            0,
+            0
+          ],
+          "time_s_mean": 1.377
+        }
+      },
+      "3000": {
+        "PC+fisherz": {
+          "SHD_mean": 6.6667,
+          "SHD_std": 0.9428,
+          "SHD_per_seed": [
+            8,
+            6,
+            6
+          ],
+          "time_s_mean": 0.026
+        },
+        "GES+BIC": {
+          "SHD_mean": 6.6667,
+          "SHD_std": 1.2472,
+          "SHD_per_seed": [
+            5,
+            7,
+            8
+          ],
+          "time_s_mean": 0.048
+        },
+        "GRaSP+BIC": {
+          "SHD_mean": 4.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            5,
+            8,
+            0
+          ],
+          "time_s_mean": 0.015
+        },
+        "BOSS+BIC": {
+          "SHD_mean": 1.6667,
+          "SHD_std": 2.357,
+          "SHD_per_seed": [
+            5,
+            0,
+            0
+          ],
+          "time_s_mean": 0.016
+        },
+        "ICA-LiNGAM": {
+          "SHD_mean": 0.0,
+          "SHD_std": 0.0,
+          "SHD_per_seed": [
+            0,
+            0,
+            0
+          ],
+          "time_s_mean": 0.031
+        }
+      },
+      "10000": {
+        "PC+fisherz": {
+          "SHD_mean": 5.3333,
+          "SHD_std": 3.7712,
+          "SHD_per_seed": [
+            0,
+            8,
+            8
+          ],
+          "time_s_mean": 0.029
+        },
+        "GES+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.058
+        },
+        "GRaSP+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.017
+        },
+        "BOSS+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.019
+        },
+        "ICA-LiNGAM": {
+          "SHD_mean": 0.0,
+          "SHD_std": 0.0,
+          "SHD_per_seed": [
+            0,
+            0,
+            0
+          ],
+          "time_s_mean": 0.039
+        }
+      },
+      "30000": {
+        "PC+fisherz": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.034
+        },
+        "GES+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.047
+        },
+        "GRaSP+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.016
+        },
+        "BOSS+BIC": {
+          "SHD_mean": 2.3333,
+          "SHD_std": 3.2998,
+          "SHD_per_seed": [
+            0,
+            7,
+            0
+          ],
+          "time_s_mean": 0.017
+        },
+        "ICA-LiNGAM": {
+          "SHD_mean": 0.0,
+          "SHD_std": 0.0,
+          "SHD_per_seed": [
+            0,
+            0,
+            0
+          ],
+          "time_s_mean": 0.071
+        }
+      }
+    }
+  },
+  "n_samples_grid": [
+    1000,
+    3000,
+    10000,
+    30000
+  ],
+  "seeds": [
+    42,
+    1,
+    7
+  ],
+  "n_nodes": 5,
+  "n_edges": 7
+}

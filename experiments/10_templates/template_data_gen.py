@@ -45,7 +45,7 @@ def quick_select_method(info):
     if info["has_missing"]:
         rec.append(("PC + mv_fisherz (MVPC)", "缺失值用 testwise-deletion 检验"))
     if info["has_discrete"]:
-        rec.append(("BOSS / GES+BDeu / PC+chisq", "离散数据（实测 BOSS 最佳）"))
+        rec.append(("BOSS+BDeu / PC+chisq", "离散数据（小/中规模 BOSS+BDeu 实证最优；大图 PC+chisq）"))
     else:
         rec.append(("PC+fisherz / GES+BIC / BOSS", "连续线性默认（实测 SHD=0）"))
         rec.append(("ICA-LiNGAM", "若怀疑非高斯噪声（完整 DAG）"))

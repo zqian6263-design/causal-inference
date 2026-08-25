@@ -135,3 +135,32 @@
 - 本批次多次本地重跑实验会令 results/metrics|figs 的 evidence 文件出现「仅 timing/metadata 漂移」（SHD/P/R 不变），提交前已 `git checkout` 回滚噪声，保持批次 D commit 只含工程改动
 
 **下一步**：批次 A–D 全部完成（HERMES 推送 + 验收）；剩余可选：CI 实际在 GitHub Actions 上跑通确认、08_benchmarks 全量基准、远程 Pearl 笔记修正。
+
+## 优化批次 E1 — 证据加固（2026-08-25，Claude Code 执行，IMP #1 #4 #8）
+
+**做了什么**
+- [x] E1-1 **离散真实 CPD 复核**（#1）：`scripts/data_gen.py` 新增 `simulate_discrete_cpd()`（多项 logit CPD，非高斯分箱，5 节点 7 边 3 状态）；新脚本 `experiments/09_comparison/discrete_cpd.py` 在两种生成口径下对比 BOSS+BIC / GRaSP+BIC / PC+chisq / GES+BDeu 各 5 seed（42/1/7/2024/999）→ `results/metrics/discrete_cpd.json`
+- [x] E1-2 **样本量敏感性扫描**（#4）：新脚本 `experiments/09_comparison/sensitivity.py`，样本量梯度 [1000/3000/10000/30000] × 方法 × 3 seed（42/1/7）→ `results/metrics/sensitivity.json` + `results/sensitivity_report.md`
+- [x] E1-3 **bnlearn 全量基准**（#8）：新脚本 `experiments/08_benchmarks/run_all_bnlearn.py` 跑 13 数据集 ×（PC+chisq / BOSS+BDeu），子进程 + wall-clock 超时（大图止损），真值 DAG→CPDAG 对齐 → `results/metrics/bnlearn_all.json` + 3 张大图 PNG → `results/figs/`
+- [x] 知识库/README/template 同步真实化：knowledge/08 离散行改「三口径合论」+ 新增「样本量分档建议」②b-1 节 + 决策树/坑速查更新；08_benchmarks/README 全量结果表；README 速查表离散行；10_templates/template_data_gen 离散建议
+
+**关键实测数值**
+
+| 实验 | 结论 | 数值 |
+|---|---|---|
+| 离散真 CPD 复核（logit） | **PC+chisq 反超最优** | PC 3.2±1.0 vs BOSS 5.8±0.7 vs GRaSP 6.0±0.6 vs GES 5.0±1.3 |
+| 对照：高斯分箱 | BOSS 最优（旧结论确认） | BOSS 2.4±2.8 vs PC 6.8±1.2 |
+| 样本量敏感性 | 大样本≠更稳 | 30000 下全部方法 `[0,7,0]`（2/3 seed 完美、1 seed 全错）；BOSS 最优带 3000–10000（0.0±0.0） |
+| 样本量敏感性 | ICA-LiNGAM 全样本量稳定 | 非高斯 1000→30000 一律 0.0±0.0 |
+| bnlearn sachs（11 节点） | **BOSS+BDeu 完美恢复** | bOSS 0 vs PC 14🔥 |
+| bnlearn 小/中（可比 8 集） | **BOSS+BDeu 全面领先** | 6 赢 1 平 1 输（cancer 0/child 4/water 32 全线压过 PC） |
+| bnlearn 大图 | **BOSS+BDeu 不可行 / PC 退化** | alarm(37) BOSS>600s 超时；>40 节点跳过；PC hailfinder SHD=96（adjP/R≈0.18）、water SHD=45 |
+
+**注意 / 决策记录**
+- **离散结论随生成口径翻转是本次最大教训**：高斯分箱（近有序）→ BOSS 最优；真实 bnlearn 网络小/中 → BOSS+BDeu 领先；纯随机 logit 小图 → PC+chisq 领先；大图 → 只能 PC（退化）。knowledge/08 改为「必须标注生成结构与规模」。
+- **BOSS+BDeu 大图不实用的根因**是 BDeu 打分父配置分组指数膨胀（非 BOSS 算法本身），alarm(37) 实测 >600s 不收敛 → 以 600s 有界尝试为锚点，>40 节点干脆跳过并显式标注（避免每集烧 15 分钟）。
+- 大图 PC+chisq 退化：固定 alpha=0.05 + 10000 样本在 50+ 变量上累积误报（hailfinder adjP/R 仅 ~0.18）→ 已列入 08_benchmarks TODO（alpha 自适应治理）。
+- 数值交叉验证：asia PC+chisq SHD=5 与既有 08_benchmarks_asia.json（批次 C）一致 ✓；evaluate.py 统一尺子。
+- 遗留`results/template_out`漂移已按纪律回滚；E2 将补 CI/测试/文档。
+
+**下一步**：阶段 E2（CI 兼容检查 + 模板回归测试 + 文档补充），完成后 commit 并收尾。

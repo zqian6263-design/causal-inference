@@ -1,0 +1,145 @@
+{
+  "n_samples": 3000,
+  "seeds": [
+    42,
+    1,
+    7,
+    2024,
+    999
+  ],
+  "n_nodes": 5,
+  "n_edges": 7,
+  "description": "离散选型复核: GSM(高斯分箱,现有 simulate_discrete) vs 真实CPD(多项logit, simulate_discrete_cpd)",
+  "discrete_cpd_logit": {
+    "PC+chisq": {
+      "SHD_mean": 3.2,
+      "SHD_std": 0.9798,
+      "SHD_per_seed": [
+        3,
+        2,
+        3,
+        5,
+        3
+      ],
+      "adj_precision": 1.0,
+      "adj_recall": 0.9428,
+      "arrow_precision": 0.6167,
+      "arrow_recall": 0.52,
+      "time_s_mean": 0.031
+    },
+    "GES+BDeu": {
+      "SHD_mean": 5.0,
+      "SHD_std": 1.2649,
+      "SHD_per_seed": [
+        7,
+        5,
+        5,
+        5,
+        3
+      ],
+      "adj_precision": 0.9714,
+      "adj_recall": 0.8857,
+      "arrow_precision": 0.2,
+      "arrow_recall": 0.08,
+      "time_s_mean": 0.493
+    },
+    "GRaSP+BIC": {
+      "SHD_mean": 6.0,
+      "SHD_std": 0.6325,
+      "SHD_per_seed": [
+        6,
+        5,
+        6,
+        7,
+        6
+      ],
+      "adj_precision": 0.9167,
+      "adj_recall": 0.5714,
+      "arrow_precision": 0.05,
+      "arrow_recall": 0.04,
+      "time_s_mean": 0.01
+    },
+    "BOSS+BIC": {
+      "SHD_mean": 5.8,
+      "SHD_std": 0.7483,
+      "SHD_per_seed": [
+        5,
+        5,
+        6,
+        7,
+        6
+      ],
+      "adj_precision": 0.9167,
+      "adj_recall": 0.5714,
+      "arrow_precision": 0.1,
+      "arrow_recall": 0.08,
+      "time_s_mean": 0.009
+    }
+  },
+  "discrete_gaussian_binned": {
+    "PC+chisq": {
+      "SHD_mean": 6.8,
+      "SHD_std": 1.1662,
+      "SHD_per_seed": [
+        7,
+        5,
+        8,
+        8,
+        6
+      ],
+      "adj_precision": 0.8004,
+      "adj_recall": 0.9143,
+      "arrow_precision": 0.2333,
+      "arrow_recall": 0.28,
+      "time_s_mean": 0.026
+    },
+    "GES+BDeu": {
+      "SHD_mean": 6.4,
+      "SHD_std": 1.0198,
+      "SHD_per_seed": [
+        5,
+        6,
+        6,
+        7,
+        8
+      ],
+      "adj_precision": 0.9667,
+      "adj_recall": 0.8,
+      "arrow_precision": 0.0667,
+      "arrow_recall": 0.08,
+      "time_s_mean": 0.399
+    },
+    "GRaSP+BIC": {
+      "SHD_mean": 6.0,
+      "SHD_std": 3.0332,
+      "SHD_per_seed": [
+        1,
+        8,
+        9,
+        8,
+        4
+      ],
+      "adj_precision": 0.7679,
+      "adj_recall": 0.8571,
+      "arrow_precision": 0.3167,
+      "arrow_recall": 0.32,
+      "time_s_mean": 0.017
+    },
+    "BOSS+BIC": {
+      "SHD_mean": 2.4,
+      "SHD_std": 2.8,
+      "SHD_per_seed": [
+        1,
+        1,
+        1,
+        8,
+        1
+      ],
+      "adj_precision": 0.8429,
+      "adj_recall": 0.9429,
+      "arrow_precision": 0.6666,
+      "arrow_recall": 0.8,
+      "time_s_mean": 0.015
+    }
+  }
+}

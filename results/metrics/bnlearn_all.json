@@ -1,0 +1,402 @@
+{
+  "source": "causal-learn tests/TestData/bnlearn_discrete_10000",
+  "n_samples": 10000,
+  "cell_timeout_s": {
+    "pc_chisq": 600,
+    "boss_bdeu": 1500,
+    "boss_bdeu_mid": 600
+  },
+  "boss_skip_large": [
+    "barley",
+    "hailfinder",
+    "hepar2",
+    "win95pts"
+  ],
+  "methods": [
+    "pc_chisq",
+    "boss_bdeu"
+  ],
+  "results": {
+    "asia": {
+      "pc_chisq": {
+        "SHD": 5,
+        "adj_precision": 0.8333,
+        "adj_recall": 0.625,
+        "adj_tp": 5,
+        "adj_fp": 1,
+        "adj_fn": 3,
+        "arrow_precision": 1.0,
+        "arrow_recall": 0.4,
+        "time_s": 0.07,
+        "n_nodes": 8,
+        "truth_edges": 8,
+        "est_edges": 6,
+        "method": "pc_chisq",
+        "dataset": "asia"
+      },
+      "boss_bdeu": {
+        "SHD": 2,
+        "adj_precision": 0.875,
+        "adj_recall": 0.875,
+        "adj_tp": 7,
+        "adj_fp": 1,
+        "adj_fn": 1,
+        "arrow_precision": 0.8333,
+        "arrow_recall": 1.0,
+        "time_s": 2.294,
+        "n_nodes": 8,
+        "truth_edges": 8,
+        "est_edges": 8,
+        "method": "boss_bdeu",
+        "dataset": "asia"
+      }
+    },
+    "cancer": {
+      "pc_chisq": {
+        "SHD": 2,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "adj_tp": 4,
+        "adj_fp": 0,
+        "adj_fn": 0,
+        "arrow_precision": 0.5,
+        "arrow_recall": 0.5,
+        "time_s": 0.019,
+        "n_nodes": 5,
+        "truth_edges": 4,
+        "est_edges": 4,
+        "method": "pc_chisq",
+        "dataset": "cancer"
+      },
+      "boss_bdeu": {
+        "SHD": 0,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "adj_tp": 4,
+        "adj_fp": 0,
+        "adj_fn": 0,
+        "arrow_precision": 1.0,
+        "arrow_recall": 1.0,
+        "time_s": 0.284,
+        "n_nodes": 5,
+        "truth_edges": 4,
+        "est_edges": 4,
+        "method": "boss_bdeu",
+        "dataset": "cancer"
+      }
+    },
+    "earthquake": {
+      "pc_chisq": {
+        "SHD": 0,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "adj_tp": 4,
+        "adj_fp": 0,
+        "adj_fn": 0,
+        "arrow_precision": 1.0,
+        "arrow_recall": 1.0,
+        "time_s": 0.022,
+        "n_nodes": 5,
+        "truth_edges": 4,
+        "est_edges": 4,
+        "method": "pc_chisq",
+        "dataset": "earthquake"
+      },
+      "boss_bdeu": {
+        "SHD": 0,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "adj_tp": 4,
+        "adj_fp": 0,
+        "adj_fn": 0,
+        "arrow_precision": 1.0,
+        "arrow_recall": 1.0,
+        "time_s": 0.434,
+        "n_nodes": 5,
+        "truth_edges": 4,
+        "est_edges": 4,
+        "method": "boss_bdeu",
+        "dataset": "earthquake"
+      }
+    },
+    "sachs": {
+      "pc_chisq": {
+        "SHD": 14,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "adj_tp": 17,
+        "adj_fp": 0,
+        "adj_fn": 0,
+        "arrow_precision": 0.0,
+        "arrow_recall": 0.0,
+        "time_s": 0.402,
+        "n_nodes": 11,
+        "truth_edges": 17,
+        "est_edges": 17,
+        "method": "pc_chisq",
+        "dataset": "sachs"
+      },
+      "boss_bdeu": {
+        "SHD": 0,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "adj_tp": 17,
+        "adj_fp": 0,
+        "adj_fn": 0,
+        "arrow_precision": 0.0,
+        "arrow_recall": 0.0,
+        "time_s": 28.556,
+        "n_nodes": 11,
+        "truth_edges": 17,
+        "est_edges": 17,
+        "method": "boss_bdeu",
+        "dataset": "sachs"
+      }
+    },
+    "survey": {
+      "pc_chisq": {
+        "SHD": 2,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "adj_tp": 6,
+        "adj_fp": 0,
+        "adj_fn": 0,
+        "arrow_precision": 0.6667,
+        "arrow_recall": 0.6667,
+        "time_s": 0.024,
+        "n_nodes": 6,
+        "truth_edges": 6,
+        "est_edges": 6,
+        "method": "pc_chisq",
+        "dataset": "survey"
+      },
+      "boss_bdeu": {
+        "SHD": 6,
+        "adj_precision": 1.0,
+        "adj_recall": 0.6667,
+        "adj_tp": 4,
+        "adj_fp": 0,
+        "adj_fn": 2,
+        "arrow_precision": 0.0,
+        "arrow_recall": 0.0,
+        "time_s": 0.363,
+        "n_nodes": 6,
+        "truth_edges": 6,
+        "est_edges": 4,
+        "method": "boss_bdeu",
+        "dataset": "survey"
+      }
+    },
+    "alarm": {
+      "pc_chisq": {
+        "SHD": 6,
+        "adj_precision": 0.9565,
+        "adj_recall": 0.9565,
+        "adj_tp": 44,
+        "adj_fp": 2,
+        "adj_fn": 2,
+        "arrow_precision": 0.907,
+        "arrow_recall": 0.9286,
+        "time_s": 2.932,
+        "n_nodes": 37,
+        "truth_edges": 46,
+        "est_edges": 46,
+        "method": "pc_chisq",
+        "dataset": "alarm"
+      },
+      "boss_bdeu": {
+        "error": "timeout>600s (BOSS+BDeu 大图不实用)"
+      }
+    },
+    "barley": {
+      "pc_chisq": {
+        "SHD": 49,
+        "adj_precision": 0.9661,
+        "adj_recall": 0.6786,
+        "adj_tp": 57,
+        "adj_fp": 2,
+        "adj_fn": 27,
+        "arrow_precision": 0.6296,
+        "arrow_recall": 0.4533,
+        "time_s": 14.795,
+        "n_nodes": 48,
+        "truth_edges": 84,
+        "est_edges": 59,
+        "method": "pc_chisq",
+        "dataset": "barley"
+      },
+      "boss_bdeu": {
+        "error": "skipped: BOSS+BDeu 对 >40 节点(实际 48 节点)真实图不实用（alarm 37 节点 600s 超时锚点）",
+        "n_nodes": 48
+      }
+    },
+    "child": {
+      "pc_chisq": {
+        "SHD": 10,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "adj_tp": 25,
+        "adj_fp": 0,
+        "adj_fn": 0,
+        "arrow_precision": 0.5455,
+        "arrow_recall": 0.9231,
+        "time_s": 1.899,
+        "n_nodes": 20,
+        "truth_edges": 25,
+        "est_edges": 25,
+        "method": "pc_chisq",
+        "dataset": "child"
+      },
+      "boss_bdeu": {
+        "SHD": 4,
+        "adj_precision": 0.9615,
+        "adj_recall": 1.0,
+        "adj_tp": 25,
+        "adj_fp": 1,
+        "adj_fn": 0,
+        "arrow_precision": 1.0,
+        "arrow_recall": 0.7692,
+        "time_s": 110.378,
+        "n_nodes": 20,
+        "truth_edges": 25,
+        "est_edges": 26,
+        "method": "boss_bdeu",
+        "dataset": "child"
+      }
+    },
+    "insurance": {
+      "pc_chisq": {
+        "SHD": 25,
+        "adj_precision": 1.0,
+        "adj_recall": 0.8077,
+        "adj_tp": 42,
+        "adj_fp": 0,
+        "adj_fn": 10,
+        "arrow_precision": 0.6341,
+        "arrow_recall": 0.7647,
+        "time_s": 4.711,
+        "n_nodes": 27,
+        "truth_edges": 52,
+        "est_edges": 42,
+        "method": "pc_chisq",
+        "dataset": "insurance"
+      },
+      "boss_bdeu": {
+        "SHD": 15,
+        "adj_precision": 0.9767,
+        "adj_recall": 0.8077,
+        "adj_tp": 42,
+        "adj_fp": 1,
+        "adj_fn": 10,
+        "arrow_precision": 0.8438,
+        "arrow_recall": 0.7941,
+        "time_s": 309.259,
+        "n_nodes": 27,
+        "truth_edges": 52,
+        "est_edges": 43,
+        "method": "boss_bdeu",
+        "dataset": "insurance"
+      }
+    },
+    "water": {
+      "pc_chisq": {
+        "SHD": 45,
+        "adj_precision": 1.0,
+        "adj_recall": 0.4697,
+        "adj_tp": 31,
+        "adj_fp": 0,
+        "adj_fn": 35,
+        "arrow_precision": 0.7273,
+        "arrow_recall": 0.2667,
+        "time_s": 1.064,
+        "n_nodes": 32,
+        "truth_edges": 66,
+        "est_edges": 31,
+        "method": "pc_chisq",
+        "dataset": "water"
+      },
+      "boss_bdeu": {
+        "SHD": 32,
+        "adj_precision": 1.0,
+        "adj_recall": 0.5303,
+        "adj_tp": 35,
+        "adj_fp": 0,
+        "adj_fn": 31,
+        "arrow_precision": 1.0,
+        "arrow_recall": 0.4667,
+        "time_s": 102.407,
+        "n_nodes": 32,
+        "truth_edges": 66,
+        "est_edges": 35,
+        "method": "boss_bdeu",
+        "dataset": "water"
+      }
+    },
+    "hailfinder": {
+      "pc_chisq": {
+        "SHD": 96,
+        "adj_precision": 0.175,
+        "adj_recall": 0.1061,
+        "adj_tp": 7,
+        "adj_fp": 33,
+        "adj_fn": 59,
+        "arrow_precision": 0.0968,
+        "arrow_recall": 0.0612,
+        "time_s": 5.894,
+        "n_nodes": 56,
+        "truth_edges": 66,
+        "est_edges": 40,
+        "method": "pc_chisq",
+        "dataset": "hailfinder"
+      },
+      "boss_bdeu": {
+        "error": "skipped: BOSS+BDeu 对 >40 节点(实际 56 节点)真实图不实用（alarm 37 节点 600s 超时锚点）",
+        "n_nodes": 56
+      }
+    },
+    "hepar2": {
+      "pc_chisq": {
+        "SHD": 92,
+        "adj_precision": 0.9333,
+        "adj_recall": 0.5691,
+        "adj_tp": 70,
+        "adj_fp": 5,
+        "adj_fn": 53,
+        "arrow_precision": 0.493,
+        "arrow_recall": 0.307,
+        "time_s": 24.517,
+        "n_nodes": 70,
+        "truth_edges": 123,
+        "est_edges": 75,
+        "method": "pc_chisq",
+        "dataset": "hepar2"
+      },
+      "boss_bdeu": {
+        "error": "skipped: BOSS+BDeu 对 >40 节点(实际 70 节点)真实图不实用（alarm 37 节点 600s 超时锚点）",
+        "n_nodes": 70
+      }
+    },
+    "win95pts": {
+      "pc_chisq": {
+        "SHD": 57,
+        "adj_precision": 0.962,
+        "adj_recall": 0.6786,
+        "adj_tp": 76,
+        "adj_fp": 3,
+        "adj_fn": 36,
+        "arrow_precision": 0.7761,
+        "arrow_recall": 0.52,
+        "time_s": 13.195,
+        "n_nodes": 76,
+        "truth_edges": 112,
+        "est_edges": 79,
+        "method": "pc_chisq",
+        "dataset": "win95pts"
+      },
+      "boss_bdeu": {
+        "error": "skipped: BOSS+BDeu 对 >40 节点(实际 76 节点)真实图不实用（alarm 37 节点 600s 超时锚点）",
+        "n_nodes": 76
+      }
+    }
+  }
+}

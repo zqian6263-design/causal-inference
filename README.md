@@ -60,7 +60,8 @@ python template_pipeline.py
 |---|---|---|
 | 连续 + 线性 + 高斯 | **BOSS** / PC+fisherz / GES+BIC | BOSS 5 seed 全对（SHD=0.0±0.0） |
 | 连续 + 线性 + 非高斯 | **ICA-LiNGAM** | 唯一稳定完美恢复完整 DAG（0.0±0.0） |
-| 离散 / 分类 | **BOSS** | 4/5 seed 达 SHD=1 |
+| 离散 / 分类（小/中规模） | **BOSS+BDeu** | 真实 bnlearn 实证 6/8 领先（sachs SHD=0） |
+| 离散 / 分类（大图 ≥37 节点） | PC+chisq | BOSS+BDeu 打分超时不可行，PC 唯一可用（质量退化） |
 | 非线性 | PC+KCI（大样本）或 ANM/PNL | 线性假设方法全受限 |
 | 时序 | Granger / VAR-LiNGAM | 滞后因果 |
 | 怀疑有隐变量 | FCI / RLCD | PAG 或显式隐变量节点 |
