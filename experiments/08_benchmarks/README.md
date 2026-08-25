@@ -66,6 +66,11 @@ python experiments/08_benchmarks/run_all_bnlearn.py <数据目录> # 或显式�
 但 **BOSS+BDeu 无法扩展到大图**（≥37 节点超时），**PC+chisq 是大图唯一可行选项**（质量随规模退化）。
 与合成数据口径（分箱 vs 真实 logit CPD）的关系见 `knowledge/08` ②b 离散行——三口径合论：**离散最优方法取决于生成结构与规模**。
 
+> **α 自适应治理复测（F2，`results/metrics/alpha_adaptive.json`）**：对三大大图对比 fixed=0.05 / 0.01 / Bonferroni，
+> 结论为**限定性**——α 收紧只在「精度主导」的图上有效：hailfinder SHD 96→89（但召回卡死在 0.106，
+> 图的问题在数据结构不在 alpha）；win95pts 在 α=0.01 有甜蜜点 57→53；hepar2/win95pts 上 Bonferroni
+> 过度保守反而更差（SHD 70/97）。**推荐小步收紧 α≈0.01 作起点，而非全量 Bonferroni**。
+
 ## TODO（非批次 E 范围）
 
 - 与官方 `TestPC.py` 基准 MD5 对照（causal-learn 自带 `benchmark_returned_results/` 可作参照）

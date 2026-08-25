@@ -2,6 +2,8 @@ name: smoke
 
 # 批次 D 冒烟 CI：ubuntu + python 3.9 装 requirements.txt 后跑全部实验脚本，
 # 验证仓库「新鲜 clone + pip install」即可复现（对应 PLAN 全局验收标准 1）。
+# F1 批次：新增 E1 比较脚本（discrete_cpd/sensitivity，确定性小图，~2 分钟内），
+# 模板独立验收换成 tests/test_template_portable.py（覆盖更强）；timeout 20→35 留足。
 on:
   push:
     branches: [main]
@@ -11,7 +13,7 @@ on:
 jobs:
   smoke:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
 
@@ -44,10 +46,15 @@ jobs:
         run: python experiments/07_granger/run.py
       - name: 09_comparison
         run: python experiments/09_comparison/run_all.py
+      # F1 新增：E1 比较脚本（确定性、5 节点小图、无外部数据，~30s 与 ~2 分钟）
+      - name: 09 comparison discrete_cpd (IMP#1 复核)
+        run: python experiments/09_comparison/discrete_cpd.py
+      - name: 09 comparison sensitivity (IMP#4 样本量扫描)
+        run: python experiments/09_comparison/sensitivity.py
 
-      # D1 验收：复制 10_templates 到独立目录能自包含跑通（无仓库根依赖）
-      - name: template standalone (copy to temp dir)
-        run: |
-          cp -r experiments/10_templates /tmp/tpl_test
-          cd /tmp/tpl_test
-          python template_pipeline.py
+      # 模板「复制即用」回归（E2 固化）：独立临时目录跑 template_data_gen/pipeline + 定量评估分支
+      - name: template portable regression
+        run: python tests/test_template_portable.py
+
+      # 08_benchmarks（smoke_asia/run_all_bnlearn）需外部 bnlearn 数据（causal-learn TestData），
+      # CI 无法访问 → 不进本工作流，见 experiments/08_benchmarks/README.md 获取方式。

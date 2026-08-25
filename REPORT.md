@@ -183,3 +183,25 @@
 - 可选后续：把 CI 内联「template standalone」步骤换成 `python tests/test_template_portable.py`（覆盖更强）；大图 PC+chisq alpha 自适应（已列 08_benchmarks TODO）
 
 **下一步**：E1+E2 全部完成；工作树已净。Hermes 推送 + 验收。
+
+## 优化轮次 F — CI 升级 + 大图 alpha 自适应 / KCI / 马尔可夫毯 / CAM-UV（2026-08-25，Claude Code 执行）
+
+### F 阶段第一部分（F1+F2 已提交，IMP 后续项 #2 #3 #11 见下半节）
+
+**做了什么**
+- [x] F1 **CI 工作流升级**（E2 遗留）：`.github/workflows/smoke.yml` ① 内联「模板独立目录」验收整段替换为 `python tests/test_template_portable.py`（E2 回归测试，覆盖更强）；② 在 09_comparison 后新增 `discrete_cpd.py` + `sensitivity.py` 两步（E1 确定性脚本入 CI）；timeout-minutes 20→35。本地模拟：回归测试 + discrete_cpd 冒烟均 exit=0（PYTHONPATH= 等价 CI）
+- [x] F2 **大图 PC alpha 自适应**（E1 遗留 hailfinder SHD=96）：新 `experiments/08_benchmarks/alpha_adaptive.py`——对 PC+chisq 做 **Bonferroni**（alpha/C(n,2)，说明选 BH-FDR 不可行的理由：causal-learn PC 不暴露内部 p 值集合）＋ α=0.01 探针；在 hailfinder/hepar2/win95pts 三图对比 fixed vs mid vs bonf → `results/metrics/alpha_adaptive.json`
+
+**关键实测数值（alpha_adaptive.json）**
+
+| 图 | 节点/边 | fixed 0.05 | mid 0.01 | Bonferroni |
+|---|---|---|---|---|
+| hailfinder | 56/66 | SHD=96, adjP/R 0.18/0.11 | 93 | **89**, adjP 0.21（召回仍 0.106）|
+| hepar2 | 70/123 | SHD=92, adjP/R 0.93/0.57 | 96 | 97, adjP 1.0/0.46 |
+| win95pts | 76/112 | SHD=57, adjP/R 0.96/0.68 | **53** | 70 |
+
+**注意 / 决策记录**
+- **α 自适应是限定性结论**：只在「精度主导」的图上有效（hailfinder 单调改善但召回卡 0.106——图的问题在数据结构非 alpha）；hepar2/win95pts 上 Bonferroni 过度保守反而更糟。**推荐小步收紧 α≈0.01 作起点，不做全量 Bonferroni**——已写入 knowledge/08 ④ 坑表 + 08_benchmarks/README 注记。
+- F1 本地模拟重跑 discrete_cpd 产生的 JSON timing 漂移已按纪律回滚，commit 只含工程改动。
+
+**下一步**：F3 KCI 大样本脚本 + F4 马尔可夫毯管道 + F5 CAM-UV 检查，完成后第二个 commit 并收尾。
