@@ -87,18 +87,30 @@ def _plot_edges(ax, edges, pos, color_map):
         _draw_glyph(ax, p2, ux, uy, ep_b, color, L)         # b 端：朝外方向 = u
 
 
-def _plot_nodes(ax, pos, labels, color_map):
+def _plot_nodes(ax, pos, labels, color_map, highlight=None):
+    highlight = set(highlight or [])
     xs = [p[0] for p in pos.values()]
     ys = [p[1] for p in pos.values()]
+    for nm in labels:
+        if nm in color_map:
+            continue
+        if nm in highlight:
+            color_map[nm] = "#ddd6fe"      # 强调色：马尔可夫毯成员（淡紫）
+    edgec = ["#d946ef" if nm in highlight else "#334155" for nm in labels]
+    lw    = [2.2 if nm in highlight else 1.4 for nm in labels]
     ax.scatter(xs, ys, s=2200, c=[color_map.get(nm, "#dbeafe") for nm in labels],
-               edgecolors="#334155", linewidths=1.4, zorder=2)
+               edgecolors=edgec, linewidths=lw, zorder=2)
     for nm in labels:
         ax.text(pos[nm][0], pos[nm][1], nm, ha="center", va="center",
                 fontsize=10, fontweight="bold", zorder=4)
 
 
-def plot_graph(g, save_path, title="", figsize=(7, 5.5)):
-    """渲染 causal-learn 图（GeneralGraph/CausalGraph，CPDAG/PAG 通用）到 PNG。"""
+def plot_graph(g, save_path, title="", figsize=(7, 5.5), highlight=None):
+    """渲染 causal-learn 图（GeneralGraph/CausalGraph，CPDAG/PAG 通用）到 PNG。
+
+    highlight: 可选的节点名集合（set），这些节点以强调色（橙色描边）绘制——
+    如 markov_blanket.py 用其标出标签 Y 的马尔可夫毯成员。
+    """
     labels = [n.get_name() for n in g.get_nodes()]
     edges = _edge_list(g)
 
@@ -110,13 +122,14 @@ def plot_graph(g, save_path, title="", figsize=(7, 5.5)):
     pos = nx.spring_layout(Gx, seed=42, k=0.9) if Gx.number_of_nodes() > 0 else {}
 
     color_map = {}
+    highlight = set(highlight or [])
     for nm in labels:
         if _is_latent(g, nm):
             color_map[nm] = _EP_COLORS["latent"]
 
     fig, ax = plt.subplots(figsize=figsize)
     _plot_edges(ax, edges, pos, color_map)
-    _plot_nodes(ax, pos, labels, color_map)
+    _plot_nodes(ax, pos, labels, color_map, highlight=highlight)
     if title:
         ax.set_title(title, fontsize=13)
     ax.axis("off")

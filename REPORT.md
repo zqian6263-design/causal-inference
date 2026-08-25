@@ -205,3 +205,28 @@
 - F1 本地模拟重跑 discrete_cpd 产生的 JSON timing 漂移已按纪律回滚，commit 只含工程改动。
 
 **下一步**：F3 KCI 大样本脚本 + F4 马尔可夫毯管道 + F5 CAM-UV 检查，完成后第二个 commit 并收尾。
+
+### F 阶段第二部分（F3+F4+F5 已提交）
+
+**做了什么**
+- [x] F3 **KCI 大样本脚本**（IMP #2）：新 `experiments/09_comparison/kci_large.py`——`--samples` 参数 + 按样本量**累积合并**入库（Hermes 后续扩跑 5000 可增量），cache 文件名内嵌样本量；本地跑完 1500 + 3000 全量（共 4 格）→ `results/metrics/kci_large.json`
+- [x] F4 **遥感马尔可夫毯因果特征选择管道**（IMP #11 基础版）：新 `experiments/demo_remote_sensing/markov_blanket.py`——X1-X5+Y 合成数据（X3 混淆、X2 纯噪声、X4→X5 派生链）→ PC+fisherz 找 CPDAG → 提取 Y 马尔可夫毯 → **全特征 / 相关筛选 / 因果毯** 三组逻辑回归 5 折 CV 对比（3 seed）；`scripts/plotting.py` 增 `highlight=` 可选参数（兼容）标出 MB 节点；结论写入 TEMPLATE_README.md
+- [x] F5 **CAM-UV 检查**（IMP #3）：`import pygam` 探针确认未装 → knowledge/04 两处标注「需 pygam（等待批准安装，F 轮未装）」，不安装
+
+**关键实测数值**
+
+| 实验 | 结论 | 数值 |
+|---|---|---|
+| KCI 大样本（F3） | **大样本非解药，SHD 非单调** | 非线性 1200/1500/3000 → 7/5/6；线性 6/5/5；3000 时 ~18min/数据集 |
+| KCI 召回 | 召回 0.71→0.86 有提升但卡「漏 1 边」 | adjR 3000 两数据集均 0.857；非线性还出假阳性（adjP 0.857） |
+| 马尔可夫毯（F4） | PC 3 seed 全 SHD=0，MB 恒={X1,X3} | 相关筛选被骗入 {X1,X3,X4,X5}（X4/X5 仅共因相关） |
+| 三类特征分类 | **2 特征毯 = 5 全特征准确率** | 均 0.935±0.003（MB 只用 2/5 特征） |
+| CAM-UV | pygam 未装 → 标注待批准 | `import pygam` ModuleNotFoundError |
+
+**注意 / 决策记录**
+- **knowledge/08 非线性结论修正**（重要）：旧建议「大样本（≥3000）用 KCI」被 F3 推翻——3000 样本 KCI 在 5 节点图上 SHD 仍 ≥5，且非线性出现假阳性、耗时爆炸。改为「PC 骨架 + ANM/PNL 定向为首选；KCI 仅作骨架交叉验证」。决策树非线性分支、④ 坑表 KCI 行同步更新。
+- **F4 的设计选择**：图学习用连续 Y 得分（保证 fisherz 高斯前提），分类用二值标签（真实任务形态）；马尔可夫毯提取实现「父+子+配偶」并从真值对照验证（本 demo Y 是无子叶子对撞点，MB=邻接精确）。X4/X5 的关键是「**经 X3 共因相关、非因果相关**」——相关筛选被骗、毯正确剔除，这正是因果特征选择的论文价值点。
+- **范围确认**：IMPROVEMENTS #5（推送脚本 gitignore 语义）为 Hermes 侧工具，F 轮不做，标留给 Hermes。
+- KCI 3000 产生的 cache_kci_large_*.json 已被 gitignore（cache_* 规则）覆盖，不入库。
+
+**下一步**：F 轮全部完成；两个 commit（F1-2 / F3-4-5）。Hermes 推送 + 验收；后续可选：pygam 批准后补 CAM-UV、KCI 5000（Hermes 后台 `kci_large.py --samples 5000` 增量入库）、真实遥感数据应用。

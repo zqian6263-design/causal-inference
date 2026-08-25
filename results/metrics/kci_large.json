@@ -1,0 +1,68 @@
+{
+  "n_nodes": 5,
+  "n_edges": 7,
+  "alpha": 0.05,
+  "note": "KCI 大样本补充；按样本量累积（1500 本机冒烟，3000/5000 由 Hermes 后台增量入库）",
+  "results": {
+    "1500": {
+      "nonlinear_anm": {
+        "SHD": 5,
+        "adj_precision": 1.0,
+        "adj_recall": 0.8571,
+        "adj_tp": 6,
+        "adj_fp": 0,
+        "adj_fn": 1,
+        "arrow_precision": 0.3333,
+        "arrow_recall": 0.4,
+        "time_s": 185.861,
+        "dataset": "nonlinear_anm",
+        "n_samples": 1500,
+        "seed": 42
+      },
+      "linear_gaussian": {
+        "SHD": 5,
+        "adj_precision": 1.0,
+        "adj_recall": 0.8571,
+        "adj_tp": 6,
+        "adj_fp": 0,
+        "adj_fn": 1,
+        "arrow_precision": 0.3333,
+        "arrow_recall": 0.4,
+        "time_s": 130.607,
+        "dataset": "linear_gaussian",
+        "n_samples": 1500,
+        "seed": 42
+      }
+    },
+    "3000": {
+      "nonlinear_anm": {
+        "SHD": 6,
+        "adj_precision": 0.8571,
+        "adj_recall": 0.8571,
+        "adj_tp": 6,
+        "adj_fp": 1,
+        "adj_fn": 1,
+        "arrow_precision": 0.0,
+        "arrow_recall": 0.0,
+        "time_s": 1084.323,
+        "dataset": "nonlinear_anm",
+        "n_samples": 3000,
+        "seed": 42
+      },
+      "linear_gaussian": {
+        "SHD": 5,
+        "adj_precision": 1.0,
+        "adj_recall": 0.8571,
+        "adj_tp": 6,
+        "adj_fp": 0,
+        "adj_fn": 1,
+        "arrow_precision": 0.3333,
+        "arrow_recall": 0.4,
+        "time_s": 1071.353,
+        "dataset": "linear_gaussian",
+        "n_samples": 3000,
+        "seed": 42
+      }
+    }
+  }
+}

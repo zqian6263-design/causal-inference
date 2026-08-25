@@ -1,0 +1,142 @@
+{
+  "n_samples": 3000,
+  "seeds": [
+    42,
+    1,
+    7
+  ],
+  "corr_threshold": 0.3,
+  "truth_mb_name": [
+    "X1",
+    "X3"
+  ],
+  "structure": "X3->{X1,X4,Y}, X1->Y, X4->X5, X2无关",
+  "per_seed": {
+    "42": {
+      "graph": {
+        "SHD": 0,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "time_s": 0.122
+      },
+      "truth_mb": [
+        0,
+        2
+      ],
+      "est_mb": [
+        0,
+        2
+      ],
+      "est_mb_name": [
+        "X1",
+        "X3"
+      ],
+      "corr_set": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "corr_set_name": [
+        "X1",
+        "X3",
+        "X4",
+        "X5"
+      ],
+      "accuracy": {
+        "all": 0.9363333333333334,
+        "corr": 0.9376666666666666,
+        "mb": 0.9373333333333334
+      }
+    },
+    "1": {
+      "graph": {
+        "SHD": 0,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "time_s": 0.114
+      },
+      "truth_mb": [
+        0,
+        2
+      ],
+      "est_mb": [
+        0,
+        2
+      ],
+      "est_mb_name": [
+        "X1",
+        "X3"
+      ],
+      "corr_set": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "corr_set_name": [
+        "X1",
+        "X3",
+        "X4",
+        "X5"
+      ],
+      "accuracy": {
+        "all": 0.931,
+        "corr": 0.93,
+        "mb": 0.93
+      }
+    },
+    "7": {
+      "graph": {
+        "SHD": 0,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "time_s": 0.109
+      },
+      "truth_mb": [
+        0,
+        2
+      ],
+      "est_mb": [
+        0,
+        2
+      ],
+      "est_mb_name": [
+        "X1",
+        "X3"
+      ],
+      "corr_set": [
+        0,
+        2,
+        3,
+        4
+      ],
+      "corr_set_name": [
+        "X1",
+        "X3",
+        "X4",
+        "X5"
+      ],
+      "accuracy": {
+        "all": 0.9366666666666668,
+        "corr": 0.9366666666666668,
+        "mb": 0.937
+      }
+    }
+  },
+  "summary": {
+    "cv_accuracy_all": {
+      "mean": 0.9347,
+      "std": 0.0026
+    },
+    "cv_accuracy_corr": {
+      "mean": 0.9348,
+      "std": 0.0034
+    },
+    "cv_accuracy_mb": {
+      "mean": 0.9348,
+      "std": 0.0034
+    },
+    "mb_matches_truth_all_seeds": true
+  }
+}
