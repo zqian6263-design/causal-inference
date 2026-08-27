@@ -63,6 +63,36 @@
         "n_samples": 3000,
         "seed": 42
       }
+    },
+    "5000": {
+      "nonlinear_anm": {
+        "SHD": 5,
+        "adj_precision": 1.0,
+        "adj_recall": 0.8571,
+        "adj_tp": 6,
+        "adj_fp": 0,
+        "adj_fn": 1,
+        "arrow_precision": 0.0,
+        "arrow_recall": 0.0,
+        "time_s": 4160.113,
+        "dataset": "nonlinear_anm",
+        "n_samples": 5000,
+        "seed": 42
+      },
+      "linear_gaussian": {
+        "SHD": 0,
+        "adj_precision": 1.0,
+        "adj_recall": 1.0,
+        "adj_tp": 7,
+        "adj_fp": 0,
+        "adj_fn": 0,
+        "arrow_precision": 1.0,
+        "arrow_recall": 1.0,
+        "time_s": 5612.122,
+        "dataset": "linear_gaussian",
+        "n_samples": 5000,
+        "seed": 42
+      }
     }
   }
 }
