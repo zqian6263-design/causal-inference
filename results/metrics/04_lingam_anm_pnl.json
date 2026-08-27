@@ -25,7 +25,7 @@
     "verdict": "x->y"
   },
   "VAR-LiNGAM": {
-    "time_s": 0.01,
+    "time_s": 0.041,
     "lags": 2,
     "adjacency_matrices": [
       [
@@ -63,15 +63,27 @@
     "lag2_X1->X2": -0.342
   },
   "PNL": {
-    "time_s_import_plus_run": 69.244,
+    "time_s_import_plus_run": 238.397,
     "n": 400,
     "p_forward": 0.684,
     "p_backward": 0.0,
     "verdict": "x->y"
   },
   "RCD": {
-    "time_s": 19.526,
+    "time_s": 61.304,
     "note": "最小 API 调用（数据无隐变量, 非隐变量发现基准实验）",
     "n_edges": 4
+  },
+  "CAM-UV": {
+    "time_s": 20.706,
+    "n": 800,
+    "parents_match": "4/5",
+    "U_uncertain_pairs": [
+      [
+        1,
+        2
+      ]
+    ],
+    "note": "最小调用; U 为 CAM-UV 报告的方向不确定对(UCP/UBP)"
   }
 }

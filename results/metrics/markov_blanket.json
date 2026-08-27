@@ -17,7 +17,7 @@
         "SHD": 0,
         "adj_precision": 1.0,
         "adj_recall": 1.0,
-        "time_s": 0.122
+        "time_s": 0.131
       },
       "truth_mb": [
         0,
@@ -54,7 +54,7 @@
         "SHD": 0,
         "adj_precision": 1.0,
         "adj_recall": 1.0,
-        "time_s": 0.114
+        "time_s": 0.127
       },
       "truth_mb": [
         0,
@@ -91,7 +91,7 @@
         "SHD": 0,
         "adj_precision": 1.0,
         "adj_recall": 1.0,
-        "time_s": 0.109
+        "time_s": 0.135
       },
       "truth_mb": [
         0,

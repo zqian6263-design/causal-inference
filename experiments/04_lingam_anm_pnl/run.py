@@ -188,6 +188,33 @@ results["RCD"] = {"time_s": rcd_time,
                   "note": "最小 API 调用（数据无隐变量, 非隐变量发现基准实验）",
                   "n_edges": int(np.count_nonzero(np.abs(m5.adjacency_matrix_) > 0.1))}
 
+print()
+print("=" * 70)
+print("示例 6: CAM-UV 最小调用（未观测混杂; 父节点恢复 + UCP/UBP 不确定性报告）")
+print("=" * 70)
+# CAM-UV（CAM with Unobserved Confounders）: execute(X, alpha, num_explanatory_vals)
+# 返回 (P, U): P[i]=Xi 的父节点索引; U=存在 UCP/UBP（不确定因果路径）的变量对
+# 依赖 pygam（非 causal-learn 必装, 2026-08 已获用户批准安装）; n=800 控制 HSIC 耗时
+from causallearn.search.FCMBased.lingam.CAMUV import execute as camuv_execute
+
+t0 = time.time()
+np.random.seed(42)
+data_camuv, truth_camuv = simulate_linear_nongaussian(n=800, seed=42)
+P, U = camuv_execute(data_camuv, 0.05, 3)
+camuv_time = round(time.time() - t0, 3)
+truth_parents = {i: sorted([p for p in range(5) if truth_camuv[p, i]]) for i in range(5)}
+est_parents = {i: sorted(P[i]) for i in range(5)}
+match = sum(1 for i in range(5) if set(P[i]) == set(truth_parents[i]))
+print(f"CAM-UV 耗时: {camuv_time}s（n=800, pygam 依赖）")
+print(f"真值父节点: {truth_parents}")
+print(f"CAM-UV 父节点: {est_parents}")
+print(f"父节点完全一致: {match}/5")
+print(f"UCP/UBP 不确定对 U: {sorted(sorted(u) for u in U)}（显式报告方向不确定性）")
+results["CAM-UV"] = {"time_s": camuv_time, "n": 800,
+                     "parents_match": f"{match}/5",
+                     "U_uncertain_pairs": [sorted(map(int, u)) for u in U],
+                     "note": "最小调用; U 为 CAM-UV 报告的方向不确定对(UCP/UBP)"}
+
 # 落盘
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
 with open(OUT, "w", encoding="utf-8") as f:

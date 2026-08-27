@@ -230,3 +230,10 @@
 - KCI 3000 产生的 cache_kci_large_*.json 已被 gitignore（cache_* 规则）覆盖，不入库。
 
 **下一步**：F 轮全部完成；两个 commit（F1-2 / F3-4-5）。Hermes 推送 + 验收；后续可选：pygam 批准后补 CAM-UV、KCI 5000（Hermes 后台 `kci_large.py --samples 5000` 增量入库）、真实遥感数据应用。
+
+## 优化轮次 G — CAM-UV 补实验（2026-08-06，Hermes 执行）
+- [x] 用户批准安装 pygam 0.10.1（装入 pytorch env，progressbar2/python-utils 随附）
+- [x] 04 run.py 新增示例 6：CAM-UV execute(X, alpha, 3)，n=800 线性非高斯，21s
+- [x] 实测：父节点恢复 4/5（节点 3/4 完美），UCP/UBP 不确定对 U=[1,2] 显式报告方向歧义
+- [x] knowledge/04 标注更新（从"等待批准"改为"已跑最小实验"）
+- 结论：CAM-UV 的价值在诚实报告不确定性（U 列表），父节点恢复接近真值
