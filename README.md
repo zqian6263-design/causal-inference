@@ -8,7 +8,7 @@
 
 # 🧬 causal-lab：因果推断学习与方法选型工具箱
 
-> **一句话**：把 causal-learn（CMU CLeaR 官方因果发现库）从文档到实验全量梳理——**9 篇中文知识库、13 个方法可复现实验、实证对比矩阵、复制即用的分析模板**。拿到任何因果数据分析任务，照着选方法、抄模板就能跑。
+> **一句话**：把 causal-learn（CMU CLeaR 官方因果发现库）从文档到实验全量梳理——**9 篇中文知识库、13 个方法可复现实验、实证对比矩阵、复制即用的分析模板**。拿到任何因果数据分析任务，照着选方法、抄模板就能跑。核心方法输出与**官方基准逐位对照**（PC 13/13、GES 2/2 一致）。
 
 ---
 
@@ -18,9 +18,10 @@
 |---|---|
 | 📚 **9 篇中文知识库** | 从 DAG/等价类/三大范式 → 13 个方法逐个深入，每篇附**可运行示例 + 实测输出 + 踩坑记录** |
 | 🧪 **13 方法实验全可复现** | PC / FCI / CD-NOD / GES / DGES / ExactSearch / LiNGAM 家族 / ANM / PNL / GIN / RLCD / GRaSP / BOSS / Granger——每个都有脚本 + 指标 + 图 |
-| 📊 **实证对比矩阵** | 4 类数据 × 7 方法 × **5 个 seed（mean±std）**，结论全部有数据支撑，不靠运气 |
-| 🚀 **复制即用模板** | 新任务 3 步上手：复制模板 → 改数据 → 出报告 |
-| ✅ **CI 冒烟** | `clone → pip install → 全跑通`，可复现性有机器兜底 |
+| 📊 **实证对比矩阵** | 4 类数据 × 7 方法 × **5 个 seed（mean±std）** + bnlearn 13 数据集基准，结论全部有数据支撑，不靠运气 |
+| ✅ **官方基准逐位对照** | `compare_official.py`：PC+chisq bnlearn **13/13**、GES 合成 10 节点 **2/2** 与官方 Test*.py 基准矩阵逐位一致 |
+| 🚀 **复制即用模板** | 新任务 3 步上手：复制模板 → 改数据 → 出报告；`tests/` 回归测试兜底 |
+| ✅ **CI 冒烟** | `clone → pip install → 全跑通`（含比较脚本 + 模板回归），可复现性有机器兜底 |
 
 ---
 
@@ -65,7 +66,7 @@ python template_pipeline.py
 | 连续 + 线性 + 非高斯 | **ICA-LiNGAM** | 唯一稳定完美恢复完整 DAG（0.0±0.0） |
 | 离散 / 分类（小/中规模） | **BOSS+BDeu** | 真实 bnlearn 实证 6/8 领先（sachs SHD=0） |
 | 离散 / 分类（大图 ≥37 节点） | PC+chisq | BOSS+BDeu 打分超时不可行，PC 唯一可用（质量退化） |
-| 非线性 | PC+KCI（大样本）或 ANM/PNL | 线性假设方法全受限 |
+| 非线性 | **PC 骨架 + ANM/PNL 定向** | KCI 大样本亦不保证恢复（实测 ≥2000 样本 SHD 仍 ≥5） |
 | 时序 | Granger / VAR-LiNGAM | 滞后因果 |
 | 怀疑有隐变量 | FCI / RLCD | PAG 或显式隐变量节点 |
 | 有缺失值 | PC + mv_fisherz | 无需删行 |
@@ -77,9 +78,10 @@ python template_pipeline.py
 ```
 causal-inference/
 ├── knowledge/          9 篇中文知识库（00 基础 → 08 ★选型指南）
-├── experiments/        13 方法实验 + 统一对比 + 模板 + 遥感演示
-├── scripts/            数据生成器 / 评估器 / 绘图工具
-├── results/            实证对比矩阵 + 全部指标 JSON + 图
+├── experiments/        13 方法实验 + 统一对比 + bnlearn 基准 + 文档覆盖 + 遥感演示
+├── scripts/            数据生成器 / 评估器 / 绘图工具 / 推送脚本
+├── tests/              模板「复制即用」回归测试
+├── results/            实证对比矩阵 + 官方基准对照 + 全部指标 JSON + 图
 ├── requirements.txt    锁定依赖（clone 即装）
 └── .github/workflows/  CI 冒烟（smoke）
 ```
@@ -103,16 +105,20 @@ causal-inference/
 ## 🧪 实验证据
 
 - 📊 对比矩阵报告：`results/comparison_report.md`（4 数据 × 7 方法 × 5 seed，mean±std）
-- 📈 全部图：`results/figs/`（10 张，含 FCI 的 PAG、GIN 隐变量簇等）
+- 🏆 官方基准对照：`results/metrics/compare_official.json`（PC bnlearn 13/13 + GES 2/2 逐位一致）
+- 📚 bnlearn 基准：`results/metrics/bnlearn_all.json`（13 真实离散网络 × PC+chisq / BOSS+BDeu）
+- 📈 全部图：`results/figs/`（14 张，含 FCI 的 PAG、GIN 隐变量簇、bnlearn 大图、马尔可夫毯等）
 - ✅ 指标 JSON：`results/metrics/`（合法 JSON，可复现）
 
 ---
 
 ## ⚠️ 已知限制（诚实声明）
 
-- 实验基于合成数据（真值已知才能评估）；真实数据集见 `knowledge/07` 的说明
-- KCI 检验慢且小样本检验力不足（详见 knowledge/08）
-- GRaSP/BOSS 有内部随机性 → 仓库统一用 5 seed mean±std 纪律
+- 合成实验依赖真值已知才能评估；真实数据集（sachs 等）仅演示不做定量评估（见 `knowledge/07`）
+- **KCI 检验慢且大样本亦不保证恢复**：5 节点 3000 样本 ~18min/数据集，SHD 仍 ≥5（非线性甚至出假阳性）——非线性首选 PC 骨架 + ANM/PNL 定向（详见 knowledge/08 ②b 结论 4）
+- **离散结论随生成口径变化**：分箱 → BOSS+BIC；真实 bnlearn 小/中 → BOSS+BDeu；大图（≥37 节点）→ 只能 PC+chisq（BDeu 打分超时不可行）
+- **FCI 与官方旧基准存在版本漂移**（PAG 定向规则演化，`compare_official.json` 5/14 逐位一致）——不是实现错误，官方 TestFCI.py 自注「不一致 ≠ 错误」
+- GRaSP/BOSS 有内部随机性 → 仓库统一用多 seed mean±std 纪律；CAM-UV 需 pygam（可选，CI 自动跳过）
 
 ---
 
