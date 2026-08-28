@@ -8,7 +8,8 @@ knowledge/04-函数因果模型.md 复现脚本（示例与文档逐字一致）
   示例 3: VAR-LiNGAM（2 变量滞后因果时序数据, lags=2, n=500）——输出滞后系数矩阵
   示例 4: PNL 成对方向判断（后非线性 y=(x+x^3+e)^2, n=400）——PNL import 约 45s
   示例 5: RCD 最小 API 调用（`lingam.RCD`；数据无隐变量, 仅演示 API 可用性）
-  注: CAM-UV 为官方实现、未单独实验——依赖 pygam 本机未装（禁止安装新组件）
+  示例 6: CAM-UV 最小调用（`lingam.CAMUV`；依赖 pygam, 2026-08 已批准安装——
+          CI/requirements 无 pygam 时 try/except 降级跳过，不阻断整脚本）
 
 产出:
   - results/metrics/04_lingam_anm_pnl.json   全示例指标
@@ -195,25 +196,36 @@ print("=" * 70)
 # CAM-UV（CAM with Unobserved Confounders）: execute(X, alpha, num_explanatory_vals)
 # 返回 (P, U): P[i]=Xi 的父节点索引; U=存在 UCP/UBP（不确定因果路径）的变量对
 # 依赖 pygam（非 causal-learn 必装, 2026-08 已获用户批准安装）; n=800 控制 HSIC 耗时
-from causallearn.search.FCMBased.lingam.CAMUV import execute as camuv_execute
+# ⚠️ 惰性导入保护（同示例 4 PNL）：pygam 不在 requirements.txt——CI 装 requirements 后无 pygam，
+#    `from ...CAMUV import execute` 内部 import pygam 会 ModuleNotFoundError → 必须 try/except
+#    降级跳过，不阻断整脚本（只在本机装了 pygam 时真正执行）。
+try:
+    from causallearn.search.FCMBased.lingam.CAMUV import execute as camuv_execute
+    _camuv_available = True
+except ImportError as e:
+    print(f"[跳过] CAM-UV 需 pygam，当前环境无（{e}）——CI/requirements 无 pygam 时跳过；"
+          f"本地 pytorch env 已装 pygam 则正常")
+    results["CAM-UV"] = {"skipped": "pygam not installed (causal-learn optional dep)"}
+    _camuv_available = False
 
-t0 = time.time()
-np.random.seed(42)
-data_camuv, truth_camuv = simulate_linear_nongaussian(n=800, seed=42)
-P, U = camuv_execute(data_camuv, 0.05, 3)
-camuv_time = round(time.time() - t0, 3)
-truth_parents = {i: sorted([p for p in range(5) if truth_camuv[p, i]]) for i in range(5)}
-est_parents = {i: sorted(P[i]) for i in range(5)}
-match = sum(1 for i in range(5) if set(P[i]) == set(truth_parents[i]))
-print(f"CAM-UV 耗时: {camuv_time}s（n=800, pygam 依赖）")
-print(f"真值父节点: {truth_parents}")
-print(f"CAM-UV 父节点: {est_parents}")
-print(f"父节点完全一致: {match}/5")
-print(f"UCP/UBP 不确定对 U: {sorted(sorted(u) for u in U)}（显式报告方向不确定性）")
-results["CAM-UV"] = {"time_s": camuv_time, "n": 800,
-                     "parents_match": f"{match}/5",
-                     "U_uncertain_pairs": [sorted(map(int, u)) for u in U],
-                     "note": "最小调用; U 为 CAM-UV 报告的方向不确定对(UCP/UBP)"}
+if _camuv_available:
+    t0 = time.time()
+    np.random.seed(42)
+    data_camuv, truth_camuv = simulate_linear_nongaussian(n=800, seed=42)
+    P, U = camuv_execute(data_camuv, 0.05, 3)
+    camuv_time = round(time.time() - t0, 3)
+    truth_parents = {i: sorted([p for p in range(5) if truth_camuv[p, i]]) for i in range(5)}
+    est_parents = {i: sorted(P[i]) for i in range(5)}
+    match = sum(1 for i in range(5) if set(P[i]) == set(truth_parents[i]))
+    print(f"CAM-UV 耗时: {camuv_time}s（n=800, pygam 依赖）")
+    print(f"真值父节点: {truth_parents}")
+    print(f"CAM-UV 父节点: {est_parents}")
+    print(f"父节点完全一致: {match}/5")
+    print(f"UCP/UBP 不确定对 U: {sorted(sorted(u) for u in U)}（显式报告方向不确定性）")
+    results["CAM-UV"] = {"time_s": camuv_time, "n": 800,
+                         "parents_match": f"{match}/5",
+                         "U_uncertain_pairs": [sorted(map(int, u)) for u in U],
+                         "note": "最小调用; U 为 CAM-UV 报告的方向不确定对(UCP/UBP)"}
 
 # 落盘
 os.makedirs(os.path.dirname(OUT), exist_ok=True)
