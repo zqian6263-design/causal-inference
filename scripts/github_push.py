@@ -27,10 +27,23 @@ import base64
 import json
 import os
 import re
+import ssl
 import subprocess
 import sys
 from pathlib import Path
 from urllib.request import Request, urlopen, HTTPError
+
+# Windows 上 Anaconda Python 3.9 的 ssl 加载系统证书存储可能失败（ASN1 NOT_ENOUGH_DATA），
+# 显式用 certifi 的 CA 文件创建上下文；无 certifi 则回退（unverified 仅作最后手段并告警）。
+try:
+    import certifi
+    _SSL_CTX = ssl.create_default_context(cafile=certifi.where())
+except ImportError:
+    try:
+        _SSL_CTX = ssl.create_default_context()
+    except ssl.SSLError:
+        print("  [警告] 系统证书不可用，使用未校验上下文（仅推荐内网/测试）")
+        _SSL_CTX = ssl._create_unverified_context()
 
 OWNER, REPO = "zqian6263-design", "causal-inference"
 API = f"https://api.github.com/repos/{OWNER}/{REPO}"
@@ -59,7 +72,7 @@ def api(method, path, data=None, token=None):
     req = Request(API + path, data=json.dumps(data).encode() if data else None,
                   headers=hdr, method=method)
     try:
-        with urlopen(req, timeout=120) as resp:
+        with urlopen(req, timeout=120, context=_SSL_CTX) as resp:
             return json.loads(resp.read().decode())
     except HTTPError as e:
         body = e.read().decode()[:300]
