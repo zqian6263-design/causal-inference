@@ -119,7 +119,7 @@ def push(files, message, token, dry_run):
         try:
             b = api("POST", "/git/blobs",
                     {"content": raw.decode("utf-8"), "encoding": "utf-8"}, token=token)
-        except HTTPError:
+        except (HTTPError, UnicodeDecodeError):   # 二进制文件（PNG 等）走 base64
             b = api("POST", "/git/blobs",
                     {"content": base64.b64encode(raw).decode(), "encoding": "base64"},
                     token=token)
