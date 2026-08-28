@@ -1,88 +1,198 @@
 {
-  "note": "PC+chisq 输出图矩阵 vs 官方 benchmark_returned_results 逐位对照；PC 调用与官方 TestPC.py 完全一致: pc(data, 0.05, chisq, True, 0, -1)（stable=True, uc_rule=0, uc_priority=-1）",
-  "results": {
-    "asia": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 8,
-      "time_s": 0.1
+  "note": "官方 Test*.py 基准逐位对照（三大范式: PC / GES / FCI），调用与官方完全一致",
+  "pc_chisq_bnlearn": {
+    "call": "pc(data, 0.05, chisq, True, 0, -1)",
+    "datasets": {
+      "asia": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 8,
+        "time_s": 0.07
+      },
+      "cancer": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 5,
+        "time_s": 0.02
+      },
+      "earthquake": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 5,
+        "time_s": 0.03
+      },
+      "sachs": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 11,
+        "time_s": 0.37
+      },
+      "survey": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 6,
+        "time_s": 0.03
+      },
+      "alarm": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 37,
+        "time_s": 2.71
+      },
+      "barley": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 48,
+        "time_s": 14.25
+      },
+      "child": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 20,
+        "time_s": 1.76
+      },
+      "insurance": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 27,
+        "time_s": 4.57
+      },
+      "water": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 32,
+        "time_s": 1.04
+      },
+      "hailfinder": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 56,
+        "time_s": 5.5
+      },
+      "hepar2": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 70,
+        "time_s": 25.25
+      },
+      "win95pts": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 76,
+        "time_s": 13.02
+      }
     },
-    "cancer": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 5,
-      "time_s": 0.03
+    "matched": 13
+  },
+  "ges_synthetic10": {
+    "datasets": {
+      "local_score_BIC_linear_10": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 20,
+        "time_s": 0.88
+      },
+      "local_score_BDeu_discrete_10": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 20,
+        "time_s": 10.84
+      }
     },
-    "earthquake": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 5,
-      "time_s": 0.04
+    "matched": 2
+  },
+  "fci": {
+    "datasets": {
+      "bnlearn_asia": {
+        "match": false,
+        "n_diff_cells": 1,
+        "nodes": 8,
+        "time_s": 0.11
+      },
+      "bnlearn_cancer": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 5,
+        "time_s": 0.02
+      },
+      "bnlearn_earthquake": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 5,
+        "time_s": 0.03
+      },
+      "bnlearn_sachs": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 11,
+        "time_s": 0.39
+      },
+      "bnlearn_survey": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 6,
+        "time_s": 0.03
+      },
+      "bnlearn_alarm": {
+        "match": false,
+        "n_diff_cells": 7,
+        "nodes": 37,
+        "time_s": 2.78
+      },
+      "bnlearn_barley": {
+        "match": false,
+        "n_diff_cells": 7,
+        "nodes": 48,
+        "time_s": 14.86
+      },
+      "bnlearn_child": {
+        "match": false,
+        "n_diff_cells": 3,
+        "nodes": 20,
+        "time_s": 1.92
+      },
+      "bnlearn_insurance": {
+        "match": true,
+        "n_diff_cells": 0,
+        "nodes": 27,
+        "time_s": 9.45
+      },
+      "bnlearn_water": {
+        "match": false,
+        "n_diff_cells": 2,
+        "nodes": 32,
+        "time_s": 1.08
+      },
+      "bnlearn_hailfinder": {
+        "match": false,
+        "n_diff_cells": 1,
+        "nodes": 56,
+        "time_s": 5.12
+      },
+      "bnlearn_hepar2": {
+        "match": false,
+        "n_diff_cells": 1,
+        "nodes": 70,
+        "time_s": 31.61
+      },
+      "bnlearn_win95pts": {
+        "match": false,
+        "n_diff_cells": 3,
+        "nodes": 76,
+        "time_s": 11.15
+      },
+      "linear_10_fisherz": {
+        "match": false,
+        "n_diff_cells": 3,
+        "nodes": 20,
+        "time_s": 0.94
+      }
     },
-    "sachs": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 11,
-      "time_s": 0.54
-    },
-    "survey": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 6,
-      "time_s": 0.03
-    },
-    "alarm": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 37,
-      "time_s": 4.21
-    },
-    "barley": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 48,
-      "time_s": 22.51
-    },
-    "child": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 20,
-      "time_s": 2.75
-    },
-    "insurance": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 27,
-      "time_s": 7.21
-    },
-    "water": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 32,
-      "time_s": 1.53
-    },
-    "hailfinder": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 56,
-      "time_s": 8.8
-    },
-    "hepar2": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 70,
-      "time_s": 41.26
-    },
-    "win95pts": {
-      "match": true,
-      "n_diff_cells": 0,
-      "nodes": 76,
-      "time_s": 23.77
-    }
+    "matched": 5
   },
   "summary": {
-    "matched": 13,
-    "total": 13,
-    "all_match": true
+    "pc_chisq_bnlearn": 13,
+    "ges_synthetic10": 2,
+    "fci": 5
   }
 }

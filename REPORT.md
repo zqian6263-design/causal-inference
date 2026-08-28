@@ -269,3 +269,23 @@
 - 两个新脚本 CI 兼容（相对路径、无外部依赖除联网下载 datasets 段有 try/except 降级）；11_doc_coverage 的 RKHS 段慢（~5min）不适合 CI，未加入 smoke 工作流。
 
 **下一步**：I 轮全部补齐；文档缺口关闭。Hermes 推送 + 验收。
+
+## 优化轮次 J — 官方基准对照扩展（GES + FCI）（2026-08-28，Claude Code 执行）
+
+**做了什么**（把官方逐位对照从 PC 扩到三大范式）
+- [x] `compare_official.py` 扩展为三段：Part A PC+chisq（bnlearn 13，保留）、Part B GES（合成 10 节点 BIC+BDeu）、Part C FCI（bnlearn 13 + linear_10）——调用全部与官方 Test*.py **逐字一致**
+
+**关键实测数值（`results/metrics/compare_official.json`）**
+
+| 方法 | 官方基准 | 对照结果 |
+|---|---|---|
+| PC+chisq | bnlearn 13 集（stable_0_-1） | **13/13 逐位一致**（uc_priority=-1）|
+| GES+BIC / GES+BDeu | linear_10 / discrete_10 | **2/2 逐位一致**（确定性，零差异）|
+| FCI+chisq / FCI+fisherz | bnlearn 13 + linear_10 | **5/14 一致；9/14 差 1-7 格** |
+
+**注意 / 决策记录**
+- **GES 是复现度最高的方法**：确定性 + 与官方调用一致 → 2/2 零差异，打分型范式完全对齐。
+- **FCI 的 9/14 差异是版本漂移，非可修参数**：调用已与官方完全一致（depth=-1/max_path=-1 全默认，无 uc_priority 类旋钮），0.1.4.8 与官方旧 commit 的 **PAG 定向规则（R0-R10）演化**所致，差 1-7 格（连 asia 也差 1 格）。TestFCI.py 自注「不一致 ≠ 实现错误」。**如实标注、不强行改参数对齐**（那会造假）。FCI 在自家合成隐变量数据上（02_fci，dag2pag SHD=0）已独立验证实现正确。
+- 结论：「完美复现官方」的诚实口径 = PC 13/13 + GES 2/2 + FCI 5/14（漂移已定性）。
+
+**下一步**：文档过期清理（CLAUDE/PLAN/GUIDE/IMPROVEMENTS 标记「建设中/待办」均为旧状态）仍待办；Hermes 推送 + 验收。
