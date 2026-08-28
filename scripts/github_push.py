@@ -134,14 +134,14 @@ def push(files, message, token, dry_run):
                  {"message": message, "tree": tree["sha"], "parents": [parent]},
                  token=token)
     api("PATCH", "/git/refs/heads/main", {"sha": commit["sha"], "force": True}, token=token)
-    print(f"✅ 推送完成: commit {commit['sha'][:12]}")
+    print(f"[OK] 推送完成: commit {commit['sha'][:12]}")
 
     # 自验证
     tree2 = api("GET", f"/git/trees/{commit['sha']}?recursive=1", token=token)
     paths = {t["path"] for t in tree2["tree"] if t["type"] == "blob"}
     print(f"远程文件数: {len(paths)}")
     leak = [p for p in paths if p.startswith(".claude") or "cache_" in p]
-    print("残留检查:", leak if leak else "无 cache/.claude 残留 ✓")
+    print("残留检查:", leak if leak else "无 cache/.claude 残留 [OK]")
     return commit["sha"]
 
 
