@@ -34,7 +34,7 @@
 
 ### 🟡 中优先级（工程与可复现性）
 
-5. **推送脚本内置 gitignore 语义**：Git Data API 推送脚本是手动 walk 文件系统，曾把 cache_*.json 误推远程（.gitignore 不保护手动 walk）。改进：推送前用 `git check-ignore` 过滤，或脚本内置与 .gitignore 同步的 skip 列表（技能已有 pitfall，落地到 causal-lab 的推送脚本）。
+5. **推送脚本内置 gitignore 语义**：~~Git Data API 推送脚本是手动 walk 文件系统，曾把 cache_*.json 误推远程~~ —— **已完成（scripts/github_push.py）**：`git check-ignore --stdin` 过滤 + 硬跳过兜底（.git/.scratch/__pycache__/.claude/cache_*）+ 推送后自验证；已实测两次推送（含 dogfood 自推）。
 6. **CI 冒烟（批次 D 可选，强烈建议做）**：`.github/workflows/smoke.yml`（ubuntu + py3.9 + pip install -r requirements.txt → import 检查 → 快方法 run.py 冒烟 → run_all.py 定时任务）。这是公开仓库可复现性的最终保险——批次 D 若未做，后续补。
 7. **模板复制即用的回归测试**：批次 D 改完模板后，把「复制到临时目录独立跑通」固化为一个测试脚本（`tests/test_template_portable.py`），防止未来改动再破坏。
 8. **bnlearn 全量基准（08_benchmarks 扩展）**：当前仅 asia 冒烟。13 个 bnlearn 数据集（alarm→win95pts）全量跑 PC+chisq 可给「离散大图」场景提供实证（时间约 10-30 分钟，可后台）。
