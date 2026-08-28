@@ -242,3 +242,30 @@
 - [x] kci_large.py --samples 5000：nonlinear_anm SHD=5（adjP/R=1.0/0.857，4160s）；linear_gaussian SHD=0（P/R=1.0/1.0，5612s）
 - [x] 累积曲线（1200→1500→3000→5000）：非线性 7/5/6/5（3000 假阳性消失）；线性 6/5/5/0（5000 完美）
 - [x] knowledge/08 非线性结论 ④ 更新：≤3000 勿用 KCI；5000 线性可完美/非线性漏1边；首选 PC 骨架+ANM/PNL
+
+## 优化轮次 I — readthedocs 文档缺口补齐（2026-08-28，Claude Code 执行）
+
+**做了什么**（把上次审计列出的「未复现缺口」全部补齐）
+- [x] ① **gsq 检验**（gsq.rst）：`experiments/11_doc_coverage/run.py` 跑 PC+gsq vs PC+chisq（真实离散 CPD，3 seed）——逐 seed 同结果（`[0,2,0]`），实证「G² 与卡方通常一致」
+- [x] ② **广义非线性打分**（gcv.rst + gml.rst）：GES+`local_score_CV_general`/`marginal_general` 在非线性 ANM 上实跑（0.1.4.8 可用但极慢 n=500 ~1.5–3.5min）；CV_general 与 BIC 相当 SHD=5、marginal_general 过度稀疏 0 边
+- [x] ③ **图操作工具**（PDAG2DAG.rst + TXT2GeneralGraph.rst）：`pdag2dag` 骨架 7→7 不变且输出无环；`txt2generalgraph` 载入 bnlearn asia 真值图与手写 parse 逐位一致
+- [x] ④ **Datasets.load_dataset**（Datasets.rst）：sachs/boston_housing/airfoil 实跑演示（PC 边数 25/21/10，无真值图不做定量）；解决 Windows SSL 证书坑（certifi opener，同 github_push.py 因）
+- [x] ⑤ **官方 TestPC.py 基准对照**（08_benchmarks 遗留 TODO）：`compare_official.py` 用官方精确调用 `pc(data,0.05,chisq,True,0,-1)` 重跑 13 个 bnlearn 数据集，与官方 `benchmark_returned_results` **13/13 逐位一致**（初测用默认 uc_priority=2 只有 5/13——差异是参数漂移非版本漂移，已纠正）
+
+**关键实测数值（`results/metrics/doc_coverage.json` / `compare_official.json`）**
+
+| 缺口 | 结果 |
+|---|---|
+| gsq vs chisq | SHD 0.67±0.94 vs 0.67±0.94（逐 seed [0,2,0] 一致）|
+| CV_general / marginal_general | SHD=5(106s) / SHD=7 0边(208s)；BIC 基线 SHD=5 |
+| pdag2dag / txt2generalgraph | 骨架 7→7 无环=True / 与手写 parse 逐位一致 |
+| load_dataset | sachs 25 边 / boston 21 边 / airfoil 10 边（PC+fisherz）|
+| **官方 PC 基准对照** | **13/13 数据集逐位一致**（uc_priority=-1 对齐官方）|
+
+**注意 / 决策记录**
+- **「完美复现」的诚实口径**：官方 readthedocs 是英文 API 参考（45 页），本项目是「中文知识库 + 实证实验」，不逐页复刻文本；方法/检验/打分/图工具/数据集的功能性覆盖现在补齐到 **100%**（除 agentic causal-learn 在线产品）。
+- **compare_official 的重要发现**：默认 `pc(data,0.05,chisq)`（uc_priority=2）与官方基准（uc_priority=-1）输出可差到 41 格（hepar2）——**PC 参数语义敏感**，E1 的 run_all_bnlearn 属「默认参数 PC」口径（SHD/P-R 仍有效），逐位对齐官方请用 compare_official.py。
+- **Windows SSL 坑二度出现**：`load_dataset` 的 urllib 默认上下文加载系统证书失败（ASN1 NOT_ENOUGH_DATA），用 certifi opener 规避——已内置进 11_doc_coverage，knowledge/07 记录。
+- 两个新脚本 CI 兼容（相对路径、无外部依赖除联网下载 datasets 段有 try/except 降级）；11_doc_coverage 的 RKHS 段慢（~5min）不适合 CI，未加入 smoke 工作流。
+
+**下一步**：I 轮全部补齐；文档缺口关闭。Hermes 推送 + 验收。

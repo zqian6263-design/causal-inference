@@ -71,6 +71,13 @@ python experiments/08_benchmarks/run_all_bnlearn.py <数据目录> # 或显式�
 > 图的问题在数据结构不在 alpha）；win95pts 在 α=0.01 有甜蜜点 57→53；hepar2/win95pts 上 Bonferroni
 > 过度保守反而更差（SHD 70/97）。**推荐小步收紧 α≈0.01 作起点，而非全量 Bonferroni**。
 
+> **✅ 官方基准逐位对照（I 轮，`compare_official.py` → `results/metrics/compare_official.json`）**：
+> 用与官方 `TestPC.py` 完全一致的调用 `pc(data, 0.05, chisq, True, 0, -1)`（stable=True, uc_rule=0,
+> **uc_priority=-1**——默认 uc_priority=2 会漂移，初测只有 5/13 一致）重跑 13 个 bnlearn 数据集，
+> 输出图矩阵与官方 `benchmark_returned_results/*.txt` **13/13 逐位一致**——pip 0.1.4.8 完整复现官方
+> TestPC.py bnlearn PC 基准。⚠️ 注意 E1 的 `run_all_bnlearn.py` 用的是默认 uc_priority=2（与官方
+> 基准不同参数），SHD/P-R 数值仍有效但属于「默认参数 PC」口径；要逐位对齐官方请用 `compare_official.py`。
+
 ## TODO（非批次 E 范围）
 
 - 与官方 `TestPC.py` 基准 MD5 对照（causal-learn 自带 `benchmark_returned_results/` 可作参照）

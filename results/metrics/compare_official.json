@@ -1,0 +1,88 @@
+{
+  "note": "PC+chisq 输出图矩阵 vs 官方 benchmark_returned_results 逐位对照；PC 调用与官方 TestPC.py 完全一致: pc(data, 0.05, chisq, True, 0, -1)（stable=True, uc_rule=0, uc_priority=-1）",
+  "results": {
+    "asia": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 8,
+      "time_s": 0.1
+    },
+    "cancer": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 5,
+      "time_s": 0.03
+    },
+    "earthquake": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 5,
+      "time_s": 0.04
+    },
+    "sachs": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 11,
+      "time_s": 0.54
+    },
+    "survey": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 6,
+      "time_s": 0.03
+    },
+    "alarm": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 37,
+      "time_s": 4.21
+    },
+    "barley": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 48,
+      "time_s": 22.51
+    },
+    "child": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 20,
+      "time_s": 2.75
+    },
+    "insurance": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 27,
+      "time_s": 7.21
+    },
+    "water": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 32,
+      "time_s": 1.53
+    },
+    "hailfinder": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 56,
+      "time_s": 8.8
+    },
+    "hepar2": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 70,
+      "time_s": 41.26
+    },
+    "win95pts": {
+      "match": true,
+      "n_diff_cells": 0,
+      "nodes": 76,
+      "time_s": 23.77
+    }
+  },
+  "summary": {
+    "matched": 13,
+    "total": 13,
+    "all_match": true
+  }
+}

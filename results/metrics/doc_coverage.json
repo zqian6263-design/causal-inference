@@ -1,0 +1,125 @@
+{
+  "doc": "补齐 readthedocs 缺口: gsq / CV_general+marginal / PDAG2DAG+TXT2GeneralGraph / load_dataset",
+  "gsq": {
+    "n_nodes": 5,
+    "n_edges": 7,
+    "seeds": [
+      42,
+      1,
+      7
+    ],
+    "chisq": {
+      "SHD_mean": 0.6667,
+      "SHD_std": 0.9428,
+      "SHD_per_seed": [
+        0,
+        2,
+        0
+      ]
+    },
+    "gsq": {
+      "SHD_mean": 0.6667,
+      "SHD_std": 0.9428,
+      "SHD_per_seed": [
+        0,
+        2,
+        0
+      ]
+    }
+  },
+  "general_scores": {
+    "n_samples": 500,
+    "CV_general": {
+      "SHD": 5,
+      "adjP": 1.0,
+      "adjR": 0.5714,
+      "time_s": 106.513
+    },
+    "marginal_general": {
+      "SHD": 7,
+      "adjP": 0.0,
+      "adjR": 0.0,
+      "time_s": 207.822
+    },
+    "BIC(线性基线)": {
+      "SHD": 5,
+      "adjP": 1.0,
+      "adjR": 0.7143,
+      "time_s": 0.048
+    }
+  },
+  "graph_ops": {
+    "pdag2dag": {
+      "skeleton_before": 7,
+      "skeleton_after": 7,
+      "acyclic": true
+    },
+    "txt2generalgraph": {
+      "nodes": 8,
+      "match_manual_parse": true
+    }
+  },
+  "datasets": {
+    "sachs": {
+      "shape": [
+        7466,
+        11
+      ],
+      "labels": [
+        "raf",
+        "mek",
+        "plc",
+        "pip2",
+        "pip3",
+        "erk",
+        "akt",
+        "pka",
+        "pkc",
+        "p38",
+        "jnk"
+      ],
+      "pc_edges": 25,
+      "time_s": 3.613
+    },
+    "boston_housing": {
+      "shape": [
+        506,
+        14
+      ],
+      "labels": [
+        "CRIM",
+        "ZN",
+        "INDUS",
+        "CHAS",
+        "NOX",
+        "RM",
+        "AGE",
+        "DIS",
+        "RAD",
+        "TAX",
+        "PTRATIO",
+        "B",
+        "LSTAT",
+        "MEDV"
+      ],
+      "pc_edges": 21,
+      "time_s": 2.164
+    },
+    "airfoil": {
+      "shape": [
+        1503,
+        6
+      ],
+      "labels": [
+        "Frequency",
+        "Attack",
+        "Chord",
+        "Velocity",
+        "Displacement",
+        "Pressure"
+      ],
+      "pc_edges": 10,
+      "time_s": 2.027
+    }
+  }
+}
