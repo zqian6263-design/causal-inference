@@ -16,7 +16,7 @@
 ## 目录结构
 
 - `knowledge/` — 中文知识库 9 篇（00 基础 / 01 全景 / 02 约束型 / 03 打分型 / 04 函数模型 / 05 隐变量与排列 / 06 时序 / 07 评估工程 / 08 ★选型指南）
-- `experiments/` — 逐方法实验（03/04/05/07 已完成；01_pc / 02_fci / 06_grasp_boss 建设中，批次 C）；08_benchmarks bnlearn 基准（建设中，批次 C）；09_comparison 横向对比；10_templates 通用模板
+- `experiments/` — 逐方法实验全部完成：00 环境验证 / 01 PC / 02 FCI+CD-NOD / 03 GES/DGES/ExactSearch / 04 LiNGAM 家族+ANM+PNL+RCD+CAM-UV / 05 GIN+RLCD+GRaSP+BOSS / 06 GRaSP/BOSS / 07 Granger / 08 bnlearn 13 数据集基准+官方 TestPC 对照 / 09 横向对比与专项（run_all/discrete_cpd/sensitivity/KCI）/ 10_templates 通用模板 / 11_doc_coverage 文档覆盖（gsq/gcv-gml/图工具/load_dataset）
 - `scripts/` — 公共工具（data_gen.py 数据生成器、evaluate.py 评估器）
 - `results/` — 输出（metrics/ 指标 JSON、figs/ 图表、报告 md）
 

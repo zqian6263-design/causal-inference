@@ -8,7 +8,7 @@
 |---|---|
 | 学习方法论（9 篇知识库） | `knowledge/00` → `knowledge/08` |
 | 查「我的数据用什么方法」 | `knowledge/08-方法选型指南.md`（决策树+实证矩阵） |
-| 跑已有实验 | `experiments/03-07、09` 下的 run.py（01/02/06 建设中，批次 C） |
+| 跑已有实验 | `experiments/00-09` 全部 run.py（13 方法全可复现，含 bnlearn 基准） |
 | ⭐ 做自己的因果分析 | 复制 `experiments/10_templates/` |
 | 查实证指标 | `results/comparison_report.md`、`results/metrics/*.json` |
 | 总任务书/设计 | `PLAN.md` |

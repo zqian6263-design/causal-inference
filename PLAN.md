@@ -39,8 +39,8 @@ causal-lab\
 │   └── 08-方法选型指南.md        ★决策树 + 速查表（Phase 3 定稿）
 ├── experiments/         实验代码（每个方法一个目录）
 │   ├── 00_env_check.py           环境验证脚本
-│   ├── 01_pc/ … 07_granger/      逐方法实验（01/02/06 建设中，批次 C）
-│   ├── 08_benchmarks/            bnlearn 13 数据集基准（建设中，批次 C）
+│   ├── 01_pc/ … 07_granger/      逐方法实验（13 方法全部完成；11_doc_coverage 文档覆盖）
+│   ├── 08_benchmarks/            bnlearn 13 数据集基准（全量 + 官方 TestPC 对照）
 │   ├── 09_comparison/            统一协议横向对比
 │   └── 10_templates/             ★通用实验模板（数据生成/评估/报告）
 ├── scripts/             公共工具（数据生成器、评估器、画图）
