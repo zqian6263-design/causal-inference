@@ -82,7 +82,18 @@ python experiments/08_benchmarks/run_all_bnlearn.py <数据目录> # 或显式�
 > ⚠️ E1 的 `run_all_bnlearn.py` 用的是默认 uc_priority=2（与官方不同参数），SHD/P-R 数值仍有效但属
 > 「默认参数 PC」口径；要逐位对齐官方请用 `compare_official.py`。
 
-## TODO（非批次 E 范围）
+## ✅ 原 TODO 两项均已闭环（2026-09-22 更新）
 
-- 与官方 `TestPC.py` 基准 MD5 对照（causal-learn 自带 `benchmark_returned_results/` 可作参照）
-- 大图 PC+chisq 退化治理：`alpha` 自适应（如 BIC 选择阈值）或先骨架筛选
+- **与官方 `TestPC.py` 基准对照** —— ✅ 已完成，且不止 PC：`compare_official.py` 用与官方 Test\*.py **逐字一致**的调用重跑并逐位比对图矩阵，结果为
+  **PC 13/13 一致、GES 2/2 一致、FCI 5/14 一致（9/14 差 1–7 格，属 0.1.4.8 与官方旧 commit 的 PAG 定向规则版本漂移，TestFCI.py 自注「不一致 ≠ 实现错误」）**，见 `results/metrics/compare_official.json`。
+  （用的是**输出图矩阵逐位比对**，比 MD5 对照更强：MD5 只能证明文件没变，逐位比对能证明图没变。）
+- **大图 PC+chisq 退化治理（alpha 自适应）** —— ✅ 已完成，见 `alpha_adaptive.py` / `alpha_adaptive.json`。三图 × 三策略（`fixed=0.05` / `mid=0.01` / `Bonferroni=0.05/C(n,2)`）实测：
+
+  | 图 | 节点 | fixed 0.05 | mid 0.01 | Bonferroni |
+  |---|---|---|---|---|
+  | hailfinder | 56 | SHD 96（adjP 0.175） | SHD 93 | **SHD 89**（adjP 0.206） |
+  | hepar2 | 70 | **SHD 92** | SHD 96 | SHD 97 |
+  | win95pts | 76 | **SHD 57** | SHD 53 | SHD 70 |
+
+  **结论：α 收紧不是通用解药**——Bonferroni 只在 hailfinder 上有效（96→89），在 hepar2/win95pts 上反而更差（它拿召回换精度，adjR 单调下降）。
+  ⚠️ 每个配置只跑一次、无重复，**只有这个定性结论可靠，逐图数值不可引用**。详见总览文档 5.10 节。

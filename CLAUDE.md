@@ -30,7 +30,7 @@
 
 - 每个 Phase 完成：git commit + `REPORT.md` 追加一节（做了什么 / 关键数值 / 下一步）
 - 知识库文档一律简体中文，用户偏好：简单易懂、表格/要点、真实代码示例，不堆术语
-- 实验：seed=42 固定，禁止调 seed 刷指标；数据生成用 `scripts/data_gen.py`；评估用 `scripts/evaluate.py`（SHD + Adjacency/Arrow precision-recall）
+- 实验：**数据生成** seed=42 固定；**有内部随机性的方法（GRaSP/BOSS，走 Python 标准库 `random`）必须 `random.seed(seed)` 固定并报 5 seed（42/1/7/2024/999）mean±std**，无内部随机的 PC/GES/LiNGAM 单 seed 即可；**禁止调 seed 刷指标**；数据生成用 `scripts/data_gen.py`；评估用 `scripts/evaluate.py`（SHD + Adjacency/Arrow precision-recall）
 - 指标 JSON 落盘 `results/metrics/`，图表 `results/figs/`
 - 运行 >5 分钟的实验：后台跑 + 记录时间戳
 - 遇到不确定的设计决策：停下来在报告里说明，不要自作主张改 PLAN 范围

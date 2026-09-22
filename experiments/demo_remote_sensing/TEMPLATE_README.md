@@ -36,12 +36,14 @@ python template_pipeline.py          # 本机加 PYTHONPATH= 前缀，见 CLAUDE
 管道自动：数据体检 → 方法建议 → PC+fisherz / GES+BIC 运行 → 真值 CPDAG 对齐评估。
 输出落在运行目录的 `results/template_out/report.md` + `metrics.json`。
 
-## 三、预期输出（本机实测）
+## 三、预期输出（本机实测，seed=42 单次）
 
 | 方法 | SHD | adjP | adjR | arrP | arrR |
 |---|---|---|---|---|---|
 | PC+fisherz | **0** | 1.0 | 1.0 | 0.0 | 0.0 |
 | GES+BIC | **0** | 1.0 | 1.0 | 0.0 | 0.0 |
+
+> ⚠️ **这是 seed=42 的单次结果，不是"PC/GES 的预期性能"。** 本 demo 的图只有 3 条边且无对撞结构，比标准基准图简单得多，所以更容易做对；但 PC/GES 在权威 5 seed 口径下平均是 **4.80±2.48 / 5.40±3.07**。要判断方法好坏请看 `knowledge/08` ②b 的多 seed 结果。
 
 - **SHD=0**：估计 CPDAG 与真值完全一致；
 - **adjP/R = 1.0**：骨架精确——所有真边都找回（R=1.0），**X2 没有任何边**（P=1.0），伪相关被正确剔除；

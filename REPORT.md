@@ -1,5 +1,7 @@
 # 项目进度报告
 
+> 📌 **本文档是按时序追加的进度日志**（Phase 0 → 优化批次 A–J → 文档整合轮）。每一节都写于当时，其中的「下一步」指的是**当时**的待办，多数已在后续小节闭环。**要看仓库当前状态与最新结论，请用 [`README.md`](README.md) 与《[因果推断方法体系与实证总览](因果推断方法体系与实证总览.md)》**；本文只作过程存档。
+
 ## Phase 0 — 环境准备（2026-08-05，Hermes）
 - [x] 克隆 py-why/causal-learn main → D:\win\causal-learn
 - [x] causal-learn 0.1.4.8 装入 Anaconda pytorch env
@@ -289,3 +291,40 @@
 - 结论：「完美复现官方」的诚实口径 = PC 13/13 + GES 2/2 + FCI 5/14（漂移已定性）。
 
 **下一步**：文档过期清理（CLAUDE/PLAN/GUIDE/IMPROVEMENTS 标记「建设中/待办」均为旧状态）仍待办；Hermes 推送 + 验收。
+
+## 优化轮次 K — 全仓库文档整合 + 过期说法清零（2026-09-22，Claude Code 执行）
+
+**做了什么**
+- [x] **新增《因果推断方法体系与实证总览》**（2370 行 / 116 标题 / 95 表）：体系篇（零代码：方法全景 + 实证结论 + 选型决策）+ 工程篇（API 手册 + 复现指南 + 实验索引 + 已知限制），附录 A–E 含术语表、指标口径、**数值 → JSON 字段的完整溯源表**。README 加一行链接；LICENSE 同步。
+- [x] **撤下四篇旧文档**：`因果推断入门-JudeaPearl演讲精华.md`、`因果推断方法讲解.md`、`因果推断讲义-完整版.md`、`GUIDE.md`（内容已全部并入新文档）。
+- [x] **本轮：仓库内过期说法清零**（承接 J 轮"下一步"）。逐文件核对全部数值与结论，修正单 seed 旧说法、删死链、补状态说明。
+
+**本轮修正清单（K 轮过期清理）**
+
+| 文件 | 问题 | 处理 |
+|---|---|---|
+| `knowledge/03:63,177` + 标题 | GES 单 seed「完美恢复」当常态 | 标注 seed=42 单次，补多 seed 5.40±3.07 / 2.3±3.3 |
+| `knowledge/05:93,113,114,118` | 「GRaSP 实测 SHD=0 / BOSS 略逊 GRaSP / GRaSP 不可复现」 | 改为 BOSS 0.00±0.00（线性高斯）、BOSS 2.40±3.01 优于 GRaSP 5.20±2.93（线性非高斯）；seed 机制改为 `random.seed` 正解 |
+| `knowledge/07:112` | PC 单 seed「完美场景」被当性能结论 | 明确那是评估链路自测；补 PC 多 seed 2.0±2.8 |
+| `knowledge/04:93,95,96` | PNL 耗时 68s、RCD 非零系数 7 / 9s | 对齐 JSON：238.4s、4 / 61.3s |
+| `knowledge/01:105,108` | 连续线性漏了实测最优 BOSS；离散行未标规模口径 | 补 BOSS 0.00±0.00；离散按「真实网络 ≤32 节点 / 合成 logit / 大图 ≥37」分口径 |
+| `README.md:41,69` | 30 秒上手的 SHD=0 当通用结论；离散行口径不全 | 标注单 seed + 补 PC 4.80±2.48；离散补 logit 口径 PC+chisq 3.20±0.98 |
+| `CLAUDE.md` / `PLAN.md` | seed 纪律写「单 seed=42 固定」+ `np.random.seed` | 改为「数据生成 seed=42；有内部随机性的方法用 `random.seed`（非 np.random）跑 5 seed 报 mean±std」 |
+| `experiments/08_benchmarks/README.md:85` | TODO 两项实际均已完成，且与上文自相矛盾 | 改为「已完成」并补 compare_official / alpha_adaptive 实测表 |
+| `experiments/01_pc/run.py:7`、`03_ges_dges/run.py:11,21` | docstring / assert 消息把单 seed 完美当通用 | 标注单次结果与多 seed 均值（assert 保留作复现自检） |
+| `experiments/{10_templates,demo_remote_sensing}/template_data_gen.py:48,50` | 「实测 SHD=0」「离散 BOSS+BDeu 最优」无条件表述 | 补多 seed 数值与生成口径 |
+| `experiments/*/TEMPLATE_README.md` | seed 纪律旧、单次输出写成「预期输出」 | 补 5 seed 纪律；加单 seed 免责与多 seed 对照值 |
+| `IMPROVEMENTS.md:3,26,41,46` | 框架写「后续待办」但 11 项均已完成；残留前瞻句 | 标题改「全部已完成 ✅」；两处前瞻句改已完成 |
+| `PLAN.md` / `REPORT.md` / `OPTIMIZATION-PLAN.md` / `VSCode_TRANSCRIPT.md` | 过程文档正文易被误当当前状态（如「当前待执行：批次 C」） | **只加文件头状态说明**，不改写历史记录；新文档 §12.5 同步标注 |
+
+**关键决策（记录在案）**
+- **过程文档只加状态说明、不改正文**：`REPORT.md`/`OPTIMIZATION-PLAN.md`/`VSCode_TRANSCRIPT.md` 是带日期的工作日志与任务书，改写正文等于篡改历史。加一行「本文写于何时、当前状态以什么为准」既消除误导又不破坏存档价值。
+- **`CLAUDE.md` 的 seed 纪律按仓库实际做法改正**：原文「seed=42 固定」是项目早期的简化说法，与实际执行的多 seed 纪律不符，属事实性错误而非政策变更——改后与 `knowledge/08` ②b、`comparison.json` 口径一致。
+- **`knowledge/` 的单 seed 旧说法选择「就地改正」而非「保留 + 标注」**：因为这些小节是**教学正文**（读者会直接照着理解方法能力），不像过程日志那样有存档价值。
+
+**验证**
+- 全部数值逐条回对 `results/metrics/*.json`（`comparison`/`sensitivity`/`discrete_cpd`/`alpha_adaptive`/`04_lingam_anm_pnl`/`compare_official`）。
+- 改动过的 4 个 `.py` 全部 `py_compile` 通过；`tests/test_template_portable.py` **5/5 通过**（模板复制到临时目录独立跑通），确认模板改动未破坏复制即用性。
+- 新文档内部链接：179 个标题锚点 / 198 条内部链接，**0 断链**（GitHub 渲染 HTML 实测）。
+
+**下一步**：commit + 推送 `ssh-origin`，核对远端状态。

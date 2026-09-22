@@ -1,6 +1,6 @@
 # 后续改进方向（IMPROVEMENTS.md）
 
-> 来源：causal-lab 优化 A/B/C 批次执行与 Hermes 验收过程中暴露的问题梳理（2026-08-06）。分「本轮已闭环」与「后续待办」两部分。后续待办按优先级排列，可在批次 D 完成后陆续执行。
+> 来源：causal-lab 优化 A/B/C 批次执行与 Hermes 验收过程中暴露的问题梳理（2026-08-06）。分「本轮已闭环」与「后续改进」两部分。**截至 2026-09-22，第二部分的 11 项也已全部闭环**（E/F/G/D/I 轮），逐项在条目开头标了 ✅ 与对应轮次；下面保留原始问题描述，便于追溯每条纪律是从哪个坑里长出来的。
 
 ## 一、本轮已闭环的问题（A/B/C 批次修复）
 
@@ -23,7 +23,7 @@
 | 15 | GIN/PNL/VAR-LiNGAM/FCI/CD-NOD/PC 无专属实验 | 批次 C 补齐 11 方法实验 + 10 图落盘 results/figs/ | C |
 | 16 | 空目录与文档引用不符 | .gitkeep + 批次 C 内容补齐 | A/C |
 
-## 二、后续改进方向（按优先级）
+## 二、后续改进方向（11 项**全部已完成** ✅，按原优先级排列）
 
 ### 🔴 高优先级（方法学可信度）
 
@@ -38,12 +38,12 @@
 ✅ **已完成**（D/F 轮 `smoke.yml` 升级，CI run #10 全绿；含 E 轮新脚本接入与模板回归测试步骤）。6. **CI 冒烟（批次 D 可选，强烈建议做）**：`.github/workflows/smoke.yml`（ubuntu + py3.9 + pip install -r requirements.txt → import 检查 → 快方法 run.py 冒烟 → run_all.py 定时任务）。这是公开仓库可复现性的最终保险——批次 D 若未做，后续补。
 ✅ **已完成**（E 轮 `tests/test_template_portable.py`，5/5 步通过）。7. **模板复制即用的回归测试**：批次 D 改完模板后，把「复制到临时目录独立跑通」固化为一个测试脚本（`tests/test_template_portable.py`），防止未来改动再破坏。
 ✅ **已完成**（E 轮 `run_all_bnlearn.py` 13 数据集全量 + I 轮 `compare_official.py` 官方 TestPC 对照 13/13 逐位一致）。8. **bnlearn 全量基准（08_benchmarks 扩展）**：当前仅 asia 冒烟。13 个 bnlearn 数据集（alarm→win95pts）全量跑 PC+chisq 可给「离散大图」场景提供实证（时间约 10-30 分钟，可后台）。
-   > 已知约束（批次 D 记录）：`smoke_asia.py` 依赖**仓库外**的 bnlearn 数据文件（`D:\win\causal-learn\tests\TestData\bnlearn_discrete_10000\` 或官方仓库下载），CI 无法访问 → 已从 CI smoke 排除并在其 README 注释说明获取方式。后续做全量基准时需先下载数据到本地。
+   > 已知约束（批次 D 记录）：`smoke_asia.py` 依赖**仓库外**的 bnlearn 数据文件（`D:\win\causal-learn\tests\TestData\bnlearn_discrete_10000\` 或官方仓库下载），CI 无法访问 → 已从 CI smoke 排除并在其 README 注释说明获取方式。**全量基准已于 E1 完成**（需先把数据下到本地，脚本不支持自动下载）。
 
 ### 🟢 低优先级（体验与生态）
 
 ✅ **已完成**（E 轮：README/knowledge07 补 graphviz 可选说明）。9. **图渲染依赖说明**：knowledge/07 已修正 graphviz 说法，但 README 安装节可补充「可选装 graphviz 以启用 to_pydot 原生渲染；无则用 plotting.py」。
-✅ **已完成**（E 轮：04 run.py PNL 惰性导入 + 注释）。10. **PNL import 慢（45s）的工程化**：批量任务中 PNL 只 import 一次复用；文档已标注，可进一步提供 `--lazy-import` 模式。
+✅ **已完成**（E 轮：04 run.py PNL 改为 try 块内**惰性导入**——不跑 PNL 示例就不背 ~45s 启动开销；CI 无 torch 时 except 降级跳过不阻断脚本。注：PNL 真正跑起来 import+run 实测 238.4s）。10. **PNL import 慢（45s）的工程化**：批量任务中 PNL 只 import 一次复用；文档已标注，可进一步提供 `--lazy-import` 模式。
 ✅ **已完成基础版**（F 轮 `markov_blanket.py`：MB 恒={X1,X3}、2 特征=5 特征准确率；真实遥感落地留论文阶段 research-repro）。11. **研究方向的因果特征选择案例**（面向 TGRS 论文）：demo_remote_sensing 已演示混淆剔除，后续可扩展为「特征+标签联合变量 → 马尔可夫毯 → 因果特征子集」完整管道，作为论文方法章节的实验模板。
 
 ## 三、方法论纪律沉淀（供后续所有实验遵守）

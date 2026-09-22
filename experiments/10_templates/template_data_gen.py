@@ -45,9 +45,13 @@ def quick_select_method(info):
     if info["has_missing"]:
         rec.append(("PC + mv_fisherz (MVPC)", "缺失值用 testwise-deletion 检验"))
     if info["has_discrete"]:
-        rec.append(("BOSS+BDeu / PC+chisq", "离散数据（小/中规模 BOSS+BDeu 实证最优；大图 PC+chisq）"))
+        rec.append(("BOSS+BDeu / PC+chisq",
+                    "离散数据（真实网络小/中规模 → BOSS+BDeu；合成 logit CPD 小图 → PC+chisq 更优 "
+                    "3.20±0.98；大图 ≥37 节点 → PC+chisq）——结论依赖生成口径，必须标注"))
     else:
-        rec.append(("PC+fisherz / GES+BIC / BOSS", "连续线性默认（实测 SHD=0）"))
+        rec.append(("PC+fisherz / GES+BIC / BOSS",
+                    "连续线性默认；BOSS+BIC 是 5 seed 稳定 SHD=0.0±0.0 的那个，"
+                    "PC/GES 平均 4.8/5.4（单 seed 常碰巧为 0，别当常态）"))
         rec.append(("ICA-LiNGAM", "若怀疑非高斯噪声（完整 DAG）"))
     if info["n_features"] <= 15:
         rec.append(("ExactSearch", "小图追求全局最优"))

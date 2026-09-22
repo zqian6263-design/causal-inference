@@ -38,7 +38,9 @@ pip install -r requirements.txt
 python experiments/01_pc/run.py
 ```
 
-输出：`SHD=0  adjP/R=1.0/1.0` —— 从 3000 个样本里把 5 个变量的因果图完整找回来了。
+输出：`SHD=0  adjP/R=1.0/1.0` —— seed=42 这一次把 5 个变量的因果图完整找回来了。
+
+> ⚠️ 这是**单 seed 的一次结果**，别当成 PC 的通常水平：同样的图在 5 seed（42/1/7/2024/999）下 PC+fisherz 平均 **4.80±2.48**（逐 seed [0,6,6,7,5]）。真正的稳定赢家是 `BOSS+BIC`（0.00±0.00）。**这正是本项目反复强调「必须报 mean±std」的原因**，详见 [knowledge/08](knowledge/08-方法选型指南.md) 与总览文档第 5.1 节。
 
 > **可选装 graphviz（系统级命令行工具）**：启用 causal-learn `to_pydot()` 原生渲染；未装也不影响——
 > 全部脚本走仓库内置 `scripts/plotting.py`（matplotlib+networkx 直渲，CPDAG/PAG 通用）。
@@ -66,7 +68,7 @@ python template_pipeline.py
 |---|---|---|
 | 连续 + 线性 + 高斯 | **BOSS** / PC+fisherz / GES+BIC | BOSS 5 seed 全对（SHD=0.0±0.0） |
 | 连续 + 线性 + 非高斯 | **ICA-LiNGAM** | 唯一稳定完美恢复完整 DAG（0.0±0.0） |
-| 离散 / 分类（小/中规模） | **BOSS+BDeu** | 真实 bnlearn 实证 6/8 领先（sachs SHD=0） |
+| 离散 / 分类（小/中规模，**真实网络**） | **BOSS+BDeu** | 真实 bnlearn 实证 6/8 领先（sachs SHD=0）。⚠️ 合成 logit CPD 小图反而 **PC+chisq** 更优（3.20±0.98）——**离散结论依赖生成口径**，见 knowledge/08 ②b |
 | 离散 / 分类（大图 ≥37 节点） | PC+chisq | BOSS+BDeu 打分超时不可行，PC 唯一可用（质量退化） |
 | 非线性 | **PC 骨架 + ANM/PNL 定向** | KCI 大样本亦不保证恢复（实测 ≥2000 样本 SHD 仍 ≥5） |
 | 时序 | Granger / VAR-LiNGAM | 滞后因果 |

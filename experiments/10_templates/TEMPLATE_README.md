@@ -35,5 +35,5 @@
 
 - 运行：装好 `requirements.txt` 后直接 `python template_pipeline.py`；本机额外需 `PYTHONPATH=` 前缀（防 Hermes venv 劫持 import，见 `CLAUDE.md`）
 - 真值图评估：管道自动做 CPDAG 对齐（`dag2cpdag`），不要手动对比 DAG vs CPDAG
-- seed 固定 42；真实数据无真值 → 加 bootstrap 稳定性检验（边出现频率），别只跑一次
+- seed 固定 42；但**凡内部有随机性的方法（GRaSP/BOSS）必须跑 5 seed（42/1/7/2024/999）报 mean±std**——`random.seed(seed)` 对它们有效，`np.random.seed` 无效；单 seed 的方法对比结论一律不可信。真实数据无真值 → 另加 bootstrap 稳定性检验（边出现频率），别只跑一次
 - 图表：本机无 graphviz（`to_pydot().write_png` 会失败，实测批次 C）；用仓库的 `scripts/plotting.py`（matplotlib 直渲）落盘 `results/figs/`；装了 graphviz 的机器可直接用 `GraphUtils.to_pydot(...).write_png(...)`

@@ -8,7 +8,7 @@ sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..",
 import numpy as np
 
 print("=" * 70)
-print("示例 1: GES + BIC 线性高斯（期望完美恢复）")
+print("示例 1: GES + BIC 线性高斯（seed=42 单次恰好完美；多 seed 平均 5.40±3.07，非通用表现）")
 print("=" * 70)
 from causallearn.search.ScoreBased.GES import ges
 from scripts.data_gen import simulate_linear_gaussian
@@ -18,7 +18,8 @@ data, truth = simulate_linear_gaussian(n=30000, seed=42)
 Record = ges(data)
 m = evaluate_graph(truth, Record["G"], verbose=True)
 print(f"Record keys: {list(Record.keys())}")
-assert m["SHD"] == 0, f"GES 应完美恢复, 实际 SHD={m['SHD']}"
+# 这里断言 SHD==0 只是校验「该 seed 的复现结果未漂移」，不代表 GES 的通常表现
+assert m["SHD"] == 0, f"seed=42 的复现结果漂移了, 实际 SHD={m['SHD']}（多 seed 平均 5.40±3.07）"
 
 print()
 print("=" * 70)
